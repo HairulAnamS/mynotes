@@ -44,27 +44,27 @@ class _DzikirPageState extends State<DzikirPage> {
         home: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("img/ladyslider.jpg"), fit: BoxFit.cover)),
+                  image: AssetImage("img/white-black.jpg"), fit: BoxFit.cover)),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              title: Text(
-                "Berdzikir",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
-              ),
-            ),
+            // appBar: AppBar(
+            //   backgroundColor: Colors.lightBlue[100],
+            //   leading: IconButton(
+            //     icon: Icon(Icons.arrow_back_ios),
+            //     onPressed: () {
+            //       Navigator.pop(context);
+            //     },
+            //   ),
+            //   title: Text(
+            //     "Berdzikir",
+            //     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+            //   ),
+            // ),
             body: Center(
               child: Column(
                 //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  SizedBox(height: 80),
+                  SizedBox(height: 120),
                   Text(
                     _counter.toString(),
                     style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900),
@@ -78,7 +78,7 @@ class _DzikirPageState extends State<DzikirPage> {
                   Ink(
                     //padding: EdgeInsets.all(20),
                     decoration: const ShapeDecoration(
-                      color: Colors.lightBlue,
+                      color: Colors.blue,
                       shape: CircleBorder(),
                     ),
                     child: IconButton(
@@ -99,6 +99,7 @@ class _DzikirPageState extends State<DzikirPage> {
                 _refresh();
               },
               backgroundColor: Colors.green,
+              mini: false,
               // tooltip: 'Increment',
               child: Icon(Icons.refresh),
             ),

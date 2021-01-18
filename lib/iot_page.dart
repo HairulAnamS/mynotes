@@ -38,7 +38,9 @@ class _IotPageState extends State<IotPage> {
   static const _ledKamarDepan = 2;
   static const _ledTaman = 3;
 
-  Timer timerMonitoring;
+  // Timer timerMonitoring;
+  List<String> modes = ['MODE 1', 'MODE 2', 'MODE 3', 'MODE 4'];
+  String mode = 'MODE 1';
 
   void _insertData(bool index, int led) {
     setState(() {
@@ -64,6 +66,10 @@ class _IotPageState extends State<IotPage> {
 
   void _updateLedTaman(String hexa, String rgb) {
     DBRef.child("ledTaman").set({'hexa': hexa, 'rgb': rgb});
+  }
+
+  void _updateMode(String mode) {
+    DBRef.child("mode").set(mode);
   }
 
   String _generateRGB(Color warna) {
@@ -138,7 +144,7 @@ class _IotPageState extends State<IotPage> {
           // isStatusRT = false;
         }
       });
-      print(isStatusRT.toString());
+      // print(isStatusRT.toString());
     });
     DBRef.child("ledKamarDepan").once().then((DataSnapshot dataSnapshot) {
       String _dataLedKamarDepan = dataSnapshot.value;
@@ -153,7 +159,14 @@ class _IotPageState extends State<IotPage> {
           // isStatusKD = false;
         }
       });
-      print(isStatusKD.toString());
+      // print(isStatusKD.toString());
+    });
+
+    DBRef.child("mode").once().then((DataSnapshot dataSnapshot) {
+      setState(() {
+        mode = dataSnapshot.value;
+      });
+      print(mode);
     });
   }
 
@@ -175,21 +188,35 @@ class _IotPageState extends State<IotPage> {
 
   @override
   void dispose() {
+    //DBRef.onDisconnect();
     //timerMonitoring.cancel();
     super.dispose();
   }
 
   void _monitoring() {
     DBRef.child("temperature").once().then((DataSnapshot dataSnapshot) {
-      setState(() {
-        _temperature = dataSnapshot.value;
-      });
+      if (this.mounted) {
+        setState(() {
+          _temperature = dataSnapshot.value;
+        });
+      }
     });
     DBRef.child("humidity").once().then((DataSnapshot dataSnapshot) {
-      setState(() {
-        _humidity = dataSnapshot.value;
-      });
+      if (this.mounted) {
+        setState(() {
+          _humidity = dataSnapshot.value;
+        });
+      }
     });
+  }
+
+  List<DropdownMenuItem> generateItems(List<String> modes) {
+    List<DropdownMenuItem> items = [];
+
+    for (var item in modes) {
+      items.add(DropdownMenuItem(child: Text(item), value: item));
+    }
+    return items;
   }
 
   @override
@@ -202,7 +229,7 @@ class _IotPageState extends State<IotPage> {
             future: _getData(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                print(snapshot.data);
+                // print(snapshot.data);
                 return ListView(padding: EdgeInsets.all(0), children: <Widget>[
                   Center(
                     child: Column(
@@ -247,8 +274,9 @@ class _IotPageState extends State<IotPage> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 10),
                         Container(
-                          height: 170,
+                          //height: 170,
                           padding: EdgeInsets.all(15),
                           child: Column(
                             children: <Widget>[
@@ -259,7 +287,7 @@ class _IotPageState extends State<IotPage> {
                                     fontSize: 16,
                                     color: Colors.white),
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 10),
                               Row(
                                 //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
@@ -298,7 +326,7 @@ class _IotPageState extends State<IotPage> {
                                   ),
                                   Container(
                                     width: 2,
-                                    height: 100,
+                                    height: 80,
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 55),
@@ -316,7 +344,7 @@ class _IotPageState extends State<IotPage> {
                         ),
                         garis(),
                         Container(
-                          height: 170,
+                          // height: 170,
                           padding: EdgeInsets.all(15),
                           child: Column(
                             children: <Widget>[
@@ -327,7 +355,7 @@ class _IotPageState extends State<IotPage> {
                                     fontSize: 16,
                                     color: Colors.white),
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 10),
                               Row(
                                 children: <Widget>[
                                   Container(
@@ -351,7 +379,7 @@ class _IotPageState extends State<IotPage> {
                                   ),
                                   Container(
                                     width: 2,
-                                    height: 100,
+                                    height: 80,
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 55),
@@ -380,57 +408,117 @@ class _IotPageState extends State<IotPage> {
                                     color: Colors.white),
                               ),
                               SizedBox(height: 10),
-                              ButtonTheme(
-                                height: 70,
-                                minWidth: 130,
-                                child: RaisedButton(
-                                  shape: StadiumBorder(),
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                              'Pilih warna gaes...',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            content: SingleChildScrollView(
-                                              child: MaterialPicker(
-                                                pickerColor: currentColor,
-                                                onColorChanged: changeColor,
-                                                enableLabel: true,
-                                              ),
-                                            ),
-                                            actions: <Widget>[
-                                              FlatButton(
-                                                child: Text(
-                                                  'OKAY',
-                                                  style: GoogleFonts.fredokaOne(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                shape: StadiumBorder(),
-                                                color: Colors.black,
-                                                onPressed: () {
-                                                  setState(() => currentColor =
-                                                      currentColor);
-                                                  _updateLedTaman(
-                                                      currentColor.toString(),
-                                                      _generateRGB(
-                                                          currentColor));
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: ButtonTheme(
+                                      height: 50,
+                                      minWidth: 70,
+                                      child: RaisedButton(
+                                        shape: StadiumBorder(),
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                    'Pilih warna gaes...',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  content:
+                                                      SingleChildScrollView(
+                                                    child: MaterialPicker(
+                                                      pickerColor: currentColor,
+                                                      onColorChanged:
+                                                          changeColor,
+                                                      enableLabel: true,
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    FlatButton(
+                                                      child: Text(
+                                                        'OKAY',
+                                                        style: GoogleFonts
+                                                            .fredokaOne(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                      shape: StadiumBorder(),
+                                                      color: Colors.black,
+                                                      onPressed: () {
+                                                        setState(() =>
+                                                            currentColor =
+                                                                currentColor);
+                                                        _updateLedTaman(
+                                                            currentColor
+                                                                .toString(),
+                                                            _generateRGB(
+                                                                currentColor));
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              });
+                                        },
+                                        child: Text('Pilih Warna',
+                                            style: GoogleFonts.russoOne(
+                                                fontSize: 16)),
+                                        color: currentColor,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 18),
+                                  Container(
+                                    width: 2,
+                                    height: 80,
+                                    color: Colors.grey,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 25),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    height: 50,
+                                    // decoration: BoxDecoration(
+                                    //   borderRadius:
+                                    //       BorderRadius.circular(10.0),
+                                    //   border: Border.all(
+                                    //       color: Colors.white,
+                                    //       style: BorderStyle.solid,
+                                    //       width: 1.0),
+                                    // ),
+                                    //child: DropdownButtonHideUnderline(
+                                    child: DropdownButton(
+                                      dropdownColor: Colors.black,
+                                      hint: Text("Pilih mode",
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      value: mode,
+                                      items: modes.map((value) {
+                                        return DropdownMenuItem(
+                                          child: Text(
+                                            value,
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          value: value,
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          mode = value;
+                                          _updateMode(mode);
                                         });
-                                  },
-                                  child: Text('Pilih Warna',
-                                      style:
-                                          GoogleFonts.russoOne(fontSize: 20)),
-                                  color: currentColor,
-                                ),
+                                      },
+                                    ),
+                                  )
+                                  //),
+                                ],
                               ),
                             ],
                           ),
@@ -439,6 +527,7 @@ class _IotPageState extends State<IotPage> {
                           _generateRGB(currentColor),
                           style: TextStyle(color: Colors.white),
                         ),
+                        SizedBox(height: 10),
                         garis(),
                         Container(
                           margin: EdgeInsets.only(left: 15, top: 15),
@@ -494,9 +583,9 @@ class _IotPageState extends State<IotPage> {
 
   Container garis() {
     return Container(
-      height: 1,
+      height: 0.5,
       color: Colors.grey,
-      margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+      // margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
     );
   }
 }

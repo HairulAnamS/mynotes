@@ -19,31 +19,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  cloud_firestore: ^0.13.7
+  cupertino_icons: ^0.1.2
+  custom_switch: ^0.0.1
+  date_format: ^1.0.8
+  esys_flutter_share: ^1.0.2
+  firebase_auth: ^0.16.1
+  firebase_database: ^3.1.6
+  flutter_colorpicker: ^0.3.4
+  flutter_custom_clippers: ^1.1.2
+  gallery_saver: ^2.0.1
+  google_fonts: ^0.2.0
+  image_picker: ^0.6.7+4
+  liquid_pull_to_refresh: ^1.1.0
+  path: ^1.6.2
+  path_provider: ^1.6.11
   provider: ^4.0.4
+  rflutter_alert: ^1.0.3
   shared_preferences: 0.5.1+2
   toggle_switch: ^0.1.4
-
-  flutter_colorpicker: ^0.3.4
-  google_fonts: ^0.2.0
-  # camera: ^0.5.8+2
-  path: ^1.6.2
-  esys_flutter_share: ^1.0.2
-  image_picker: ^0.6.7+4
-  gallery_saver: ^2.0.1
-  custom_switch: ^0.0.1
-  rflutter_alert: ^1.0.3
-  date_format: ^1.0.8
-  liquid_pull_to_refresh: ^1.1.0
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
-
-  path_provider: ^1.6.11
-  firebase_database: ^3.1.6
-  cloud_firestore: ^0.13.7
-  firebase_auth: ^0.16.1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +58,7 @@ flutter:
     - img/heru_logo.jpg
     - img/ladyslider.jpg
     - img/noImage.jpg
+    - img/white-black.jpg
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -88,4 +83,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-

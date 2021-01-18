@@ -2,8 +2,9 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project1/auth_services.dart';
-import 'package:project1/main_page.dart';
+// import 'package:project1/main_page.dart';
 import 'package:project1/loading.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -116,126 +117,174 @@ class _LoginPageState extends State<LoginPage> {
         home: Scaffold(
           backgroundColor: Colors.white,
           body: new ListView(padding: EdgeInsets.all(0), children: <Widget>[
-            Center(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    color: Colors.blue[300],
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                    padding: EdgeInsets.fromLTRB(100, 50, 100, 50),
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage("img/heru_logo.jpg"),
-                      radius: 80,
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.blue,
+            Column(
+              children: <Widget>[
+                Container(
+                    // color: Colors.blue[300],
+                    // margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                    //padding: EdgeInsets.fromLTRB(100, 50, 100, 50),
+                    child: Stack(
+                  children: [
+                    Positioned(
+                      child: ClipPath(
+                        clipper: WaveClipperOne(),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.37,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.lightBlue[100],
+                          //child: Center(child: Text("WaveClipperTwo()")),
+                        ),
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(30),
-                    child: TextField(
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                      controller: control_email,
-                      keyboardType: TextInputType.emailAddress,
-                      //maxLength: 12,
-                      decoration: InputDecoration(
-                          //icon: Icon(Icons.people),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          prefixIcon: Icon(Icons.person),
-                          //prefixText: "Username",
-                          hintText: "Email",
-                          labelText: "Email"),
+                    Positioned(
+                      child: ClipPath(
+                        clipper: WaveClipperOne(),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.blue[700],
+                          //child: Center(child: Text("WaveClipperTwo()")),
+                        ),
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(30, 0, 30, 30),
-                    child: TextField(
-                      obscureText: true,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                      controller: control_password,
-                      maxLength: 6,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          //icon: Icon(Icons.people),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          prefixIcon: Icon(Icons.vpn_key),
-                          //prefixText: "Username",
-                          hintText: "Password",
-                          labelText: "Password"),
+                    Positioned(
+                      top: (MediaQuery.of(context).size.height * 0.2) - 60,
+                      left: (MediaQuery.of(context).size.width * 0.5) - 50,
+                      child: Center(
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage("img/heru_logo.jpg"),
+                          radius: 50,
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.blue,
+                        ),
+                      ),
                     ),
-                  ),
-                  RaisedButton(
-                    onPressed: () async {
-                      _handleSubmit(context, true);
-                      // if (_checkEmailPassword(true)) {
-                      //   userLogin = await AuthServices.signIn(
-                      //       control_email.text, control_password.text);
-                      //   if (userLogin == null) {
-                      //     message = "Email dan password salah.";
-                      //     _showAlert(context, message);
-                      //   }
-                      // } else {
-                      //   _showAlert(context, message);
-                      // }
+                  ],
+                )),
+                Container(
+                  margin: EdgeInsets.all(30),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {});
                     },
-                    child: Text(
-                      "       LOGIN       ",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    textColor: Colors.white,
-                    color: Colors.blue[300],
-                    splashColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                    controller: control_email,
+                    keyboardType: TextInputType.emailAddress,
+                    //maxLength: 12,
+                    decoration: InputDecoration(
+                        //icon: Icon(Icons.people),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        prefixIcon: Icon(Icons.person),
+                        //prefixText: "Username",
+                        hintText: "Email",
+                        labelText: "Email"),
                   ),
-                  SizedBox(height: 20),
-                  RaisedButton(
-                    child: Text(
-                      "     SIGN UP     ",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    onPressed: () async {
-                      _handleSubmit(context, false);
-                      // if (_checkEmailPassword(false)) {
-                      //   userSignUp = await AuthServices.signUp(
-                      //       control_email.text, control_password.text);
-                      //   if (userSignUp == null) {
-                      //     message = "Daftar user gagal.";
-                      //     _showAlert(context, message);
-                      //   } else {
-                      //     message = "Daftar user berhasil";
-                      //     _showAlert(context, message);
-                      //   }
-                      // } else {
-                      //   _showAlert(context, message);
-                      // }
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(30, 0, 30, 30),
+                  child: TextField(
+                    obscureText: true,
+                    onChanged: (value) {
+                      setState(() {});
                     },
-                    textColor: Colors.blue,
-                    color: Colors.white,
-                    splashColor: Colors.blue,
-                    //shape: StadiumBorder(),
-                    // shape: RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.circular(20),
-                    // ),
-                  )
+                    controller: control_password,
+                    maxLength: 6,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        //icon: Icon(Icons.people),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        prefixIcon: Icon(Icons.vpn_key),
+                        //prefixText: "Username",
+                        hintText: "Password",
+                        labelText: "Password"),
+                  ),
+                ),
+                RaisedButton(
+                  onPressed: () async {
+                    _handleSubmit(context, true);
+                    // if (_checkEmailPassword(true)) {
+                    //   userLogin = await AuthServices.signIn(
+                    //       control_email.text, control_password.text);
+                    //   if (userLogin == null) {
+                    //     message = "Email dan password salah.";
+                    //     _showAlert(context, message);
+                    //   }
+                    // } else {
+                    //   _showAlert(context, message);
+                    // }
+                  },
+                  child: Text(
+                    "       LOGIN       ",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  textColor: Colors.white,
+                  color: Colors.blue[700],
+                  splashColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                SizedBox(height: 20),
+                RaisedButton(
+                  child: Text(
+                    "     SIGN UP     ",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  onPressed: () async {
+                    _handleSubmit(context, false);
+                    // if (_checkEmailPassword(false)) {
+                    //   userSignUp = await AuthServices.signUp(
+                    //       control_email.text, control_password.text);
+                    //   if (userSignUp == null) {
+                    //     message = "Daftar user gagal.";
+                    //     _showAlert(context, message);
+                    //   } else {
+                    //     message = "Daftar user berhasil";
+                    //     _showAlert(context, message);
+                    //   }
+                    // } else {
+                    //   _showAlert(context, message);
+                    // }
+                  },
+                  textColor: Colors.blue[700],
+                  color: Colors.white,
+                  splashColor: Colors.blue,
+                  //shape: StadiumBorder(),
+                  // shape: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.circular(20),
+                  // ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 90,
+                  // color: Colors.blue[100],
+                  child: Stack(children: [
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: ClipPath(
+                        clipper: WaveClipperTwo(reverse: true),
+                        child: Container(
+                          height: 80,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.blue[700],
+                          //child: Center(child: Text("WaveClipperTwo()")),
+                        ),
+                      ),
+                    ),
+                  ]),
+                // ),
 
-                  // Text(
-                  //   "Belum punya akun, DAFTAR DISINI",
-                  //   style: TextStyle(
-                  //       color: Colors.blue, fontWeight: FontWeight.bold),
-                  // )
-                  //   ],
-                  // )
-                ],
-              ),
+                // Text(
+                //   "Belum punya akun, DAFTAR DISINI",
+                //   style: TextStyle(
+                //       color: Colors.blue, fontWeight: FontWeight.bold),
+                // )
+                //   ],
+                )
+              ],
             )
           ]),
         ));
