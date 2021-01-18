@@ -6,7 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:custom_switch/custom_switch.dart';
-import 'dart:async';
+// import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IotPage extends StatefulWidget {
@@ -240,32 +240,32 @@ class _IotPageState extends State<IotPage> {
                         Container(
                           height: 50,
                           decoration: BoxDecoration(
-                              color: Colors.green[300],
+                              color: Colors.green[400],
                               shape: BoxShape.rectangle,
                               boxShadow: [
                                 BoxShadow(
                                     offset: const Offset(3.0, 3.0),
-                                    blurRadius: 5.0,
+                                    blurRadius: 8.0,
                                     spreadRadius: 2.0,
-                                    color: Colors.green),
+                                    color: Colors.green[800]),
                               ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  Icons.wifi_tethering,
-                                  color: Colors.black,
-                                  //size: 35,
-                                ),
-                                onPressed: null,
-                                iconSize: 35,
-                              ),
+                              // IconButton(
+                              //   icon: Icon(
+                              //     Icons.wifi_tethering,
+                              //     color: Colors.black,
+                              //     //size: 35,
+                              //   ),
+                              //   onPressed: null,
+                              //   iconSize: 35,
+                              // ),
                               Text(
-                                '  IOT System',
+                                'IOT System',
                                 style: GoogleFonts.russoOne(
                                     textStyle: TextStyle(
-                                        fontSize: 24, color: Colors.black)),
+                                        fontSize: 26, color: Colors.black)),
                                 // style: TextStyle(
                                 //     fontSize: 24,
                                 //     color: Colors.white,
@@ -282,10 +282,9 @@ class _IotPageState extends State<IotPage> {
                             children: <Widget>[
                               Text(
                                 'Ruang Tamu',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                                style: GoogleFonts.russoOne(
+                                    textStyle: TextStyle(
+                                        fontSize: 16, color: Colors.white)),
                               ),
                               SizedBox(height: 10),
                               Row(
@@ -325,17 +324,16 @@ class _IotPageState extends State<IotPage> {
                                     ),
                                   ),
                                   Container(
-                                    width: 2,
+                                    width: 1,
                                     height: 80,
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 55),
                                   Text(
                                     _stRuangTamu,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
+                                    style: GoogleFonts.russoOne(
+                                        textStyle: TextStyle(
+                                            fontSize: 20, color: Colors.white)),
                                   )
                                 ],
                               ),
@@ -350,10 +348,9 @@ class _IotPageState extends State<IotPage> {
                             children: <Widget>[
                               Text(
                                 'Kamar Depan',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                                style: GoogleFonts.russoOne(
+                                    textStyle: TextStyle(
+                                        fontSize: 16, color: Colors.white)),
                               ),
                               SizedBox(height: 10),
                               Row(
@@ -378,17 +375,16 @@ class _IotPageState extends State<IotPage> {
                                     ),
                                   ),
                                   Container(
-                                    width: 2,
+                                    width: 1,
                                     height: 80,
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 55),
                                   Text(
                                     _stKamarDepan,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
+                                    style: GoogleFonts.russoOne(
+                                        textStyle: TextStyle(
+                                            fontSize: 20, color: Colors.white)),
                                   )
                                 ],
                               ),
@@ -402,10 +398,9 @@ class _IotPageState extends State<IotPage> {
                             children: <Widget>[
                               Text(
                                 'Lampu Taman',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                                style: GoogleFonts.russoOne(
+                                    textStyle: TextStyle(
+                                        fontSize: 16, color: Colors.white)),
                               ),
                               SizedBox(height: 10),
                               Row(
@@ -475,7 +470,7 @@ class _IotPageState extends State<IotPage> {
                                   ),
                                   SizedBox(width: 18),
                                   Container(
-                                    width: 2,
+                                    width: 1,
                                     height: 80,
                                     color: Colors.grey,
                                   ),
@@ -503,8 +498,10 @@ class _IotPageState extends State<IotPage> {
                                         return DropdownMenuItem(
                                           child: Text(
                                             value,
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: GoogleFonts.russoOne(
+                                                textStyle: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white)),
                                           ),
                                           value: value,
                                         );
@@ -525,12 +522,14 @@ class _IotPageState extends State<IotPage> {
                         ),
                         Text(
                           _generateRGB(currentColor),
-                          style: TextStyle(color: Colors.white),
+                          style: GoogleFonts.russoOne(
+                              textStyle:
+                                  TextStyle(fontSize: 14, color: Colors.white)),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 20),
                         garis(),
                         Container(
-                          margin: EdgeInsets.only(left: 15, top: 15),
+                          margin: EdgeInsets.only(left: 15, top: 25),
                           child: barisData(Icons.cloud_off, strTemperature,
                               _temperature + " °C"),
                         ),

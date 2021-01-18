@@ -40,7 +40,7 @@ class _CatatanInputPageState extends State<CatatanInputPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blue[700],
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
@@ -64,7 +64,7 @@ class _CatatanInputPageState extends State<CatatanInputPage> {
                           margin: EdgeInsets.all(10),
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                            color: Colors.green[100],
+                            color: Colors.blue[100],
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -78,7 +78,7 @@ class _CatatanInputPageState extends State<CatatanInputPage> {
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height * 0.7,
                     decoration: BoxDecoration(
-                      color: Colors.green[100],
+                      color: Colors.blue[100],
                       borderRadius: BorderRadius.circular(15),
                     ),
                     padding: EdgeInsets.all(10),

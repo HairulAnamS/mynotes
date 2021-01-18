@@ -38,6 +38,7 @@ dependencies:
   rflutter_alert: ^1.0.3
   shared_preferences: 0.5.1+2
   toggle_switch: ^0.1.4
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

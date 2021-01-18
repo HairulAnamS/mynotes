@@ -2,7 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/auth_services.dart';
 import 'package:project1/catatan_page.dart';
@@ -25,7 +25,10 @@ class MainPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('User Login', style: TextStyle(fontWeight: FontWeight.bold),),
+          title: Text(
+            'User Login',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           content: Text(aMessage),
           actions: <Widget>[
             FlatButton(
@@ -63,7 +66,10 @@ class MainPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Konfirmasi', style: TextStyle(fontWeight: FontWeight.bold),),
+          title: Text(
+            'Konfirmasi',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           content: Text(aMessage),
           actions: <Widget>[yaButton, tidakButton],
         );
@@ -75,59 +81,93 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("img/ladyslider.jpg"), fit: BoxFit.cover)),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              leading: Icon(Icons.android),
-              title: Text(
-                "My Notes",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
-              ),
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.account_circle, color: Colors.white),
-                    onPressed: () {
-                      _showAlert(context, user.email);
-                    }),
-                IconButton(
-                    icon: Icon(Icons.exit_to_app, color: Colors.white),
-                    onPressed: () {
-                      _showAlertExit(context, "Apakah yakin ingin keluar ?");
-                      // SystemNavigator.pop(); // Exit App
-                      //Navigator.pop(context); // Kembali ke page sebelumnya
-                    })
-              ],
+      home: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.blue[700],
+            // leading: Icon(Icons.android),
+            title: Text(
+              "My Apps",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
             ),
-            body: Center(
-                child: ListView(
-              children: <Widget>[
-                SizedBox(height: 70),
-                Column(
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.account_circle, color: Colors.white),
+                  onPressed: () {
+                    _showAlert(context, user.email);
+                  }),
+              IconButton(
+                  icon: Icon(Icons.exit_to_app, color: Colors.white),
+                  onPressed: () {
+                    _showAlertExit(context, "Apakah yakin ingin keluar ?");
+                    // SystemNavigator.pop(); // Exit App
+                    //Navigator.pop(context); // Kembali ke page sebelumnya
+                  })
+            ],
+          ),
+          body: Center(
+              child: ListView(
+            children: <Widget>[
+              SizedBox(height: 10),
+              Container(
+                height: 100,
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.blue[100],
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                        colors: [Colors.blue, Colors.lightGreen[300]])),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("img/heru_logo.jpg"),
+                      radius: 30,
+                      backgroundColor: Colors.transparent,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      'Hairul Anam S',
+                      style: GoogleFonts.aBeeZee(
+                          textStyle:
+                              TextStyle(color: Colors.black, fontSize: 18)),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.blue[100],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        menu(context, Icons.timelapse, 'Dzikir', _menuDzikir),
+                        menu(context, Icons.brightness_4_outlined, 'Dzikir', _menuDzikir),
                         menu(context, Icons.wifi_tethering, 'IOT', _menuIOT),
+                        menu(context, Icons.note_add, 'Notes', _menuNoted),
+                        menu(context, Icons.camera, 'Camera', _menuCamera),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        menu(context, Icons.note_add, 'Notes', _menuNoted),
-                        menu(context, Icons.camera, 'Camera', _menuCamera),
+                        menu(context, Icons.accessibility, 'IBM', _menuNoted),
+                        menu(context, Icons.money_off_outlined, 'Finance',
+                            _menuCamera),
+                        menu(context, Icons.timelapse, 'Dzikir', _menuDzikir),
+                        menu(context, Icons.cake, 'Birthday', _menuIOT),
                       ],
                     ),
                   ],
-                )
-              ],
-            ))),
-      ),
+                ),
+              )
+            ],
+          ))),
     );
   }
 
@@ -135,8 +175,8 @@ class MainPage extends StatelessWidget {
       BuildContext context, IconData aIcon, String aMenu, int aIdMenu) {
     return Container(
       margin: EdgeInsets.all(10),
-      height: 120,
-      width: 100,
+      height: 80,
+      width: 60,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -148,7 +188,7 @@ class MainPage extends StatelessWidget {
                 aIcon,
                 color: Colors.blue,
               ),
-              iconSize: 70,
+              iconSize: 40,
               onPressed: () {
                 if (aIdMenu == _menuDzikir) {
                   Navigator.push(
@@ -160,12 +200,12 @@ class MainPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => IotPage()),
                   );
-                } else if (aIdMenu == _menuCamera){
+                } else if (aIdMenu == _menuCamera) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CameraPage()),
                   );
-                } else if (aIdMenu == _menuNoted){
+                } else if (aIdMenu == _menuNoted) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CatatanPage()),
@@ -174,8 +214,8 @@ class MainPage extends StatelessWidget {
               }),
           Text(
             aMenu,
-            style: GoogleFonts.fredokaOne(
-                textStyle: TextStyle(color: Colors.black, fontSize: 18)),
+            style: GoogleFonts.aBeeZee(
+                textStyle: TextStyle(color: Colors.black, fontSize: 14)),
           )
         ],
       ),

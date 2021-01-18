@@ -176,7 +176,7 @@ class _CameraPageState extends State<CameraPage> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.blue[700],
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
@@ -225,7 +225,7 @@ class _CameraPageState extends State<CameraPage> {
                     button(Icons.camera, idButtonCamera),
                     button(Icons.save, idButtonSave),
                   ],
-                )
+                ),
               ],
             )),
           ],
@@ -237,13 +237,14 @@ class _CameraPageState extends State<CameraPage> {
   Ink button(IconData aIcon, int aIdButton) {
     return Ink(
       decoration: const ShapeDecoration(
-        color: Colors.lightBlue,
+        color: Colors.blue,
         shape: CircleBorder(),
       ),
       child: IconButton(
         icon: Icon(aIcon),
         iconSize: 30,
         color: Colors.white,
+        padding: EdgeInsets.all(15),
         onPressed: () {
           if (aIdButton == idButtonCamera) {
             getImage(true);

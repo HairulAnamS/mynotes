@@ -4,6 +4,7 @@ import 'package:project1/database_services.dart';
 import 'package:project1/catatanInput_page.dart';
 import 'package:project1/constant.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:intl/intl.dart';
 
 class CatatanPage extends StatefulWidget {
   @override
@@ -44,19 +45,19 @@ class _CatatanPageState extends State<CatatanPage> {
         appBar: AppBar(
             leading: Icon(Icons.library_books),
             title: Text(
-              'Catatan-Ku',
+              'Catatan',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            backgroundColor: Colors.green),
+            backgroundColor: Colors.blue[700]),
         body: FutureBuilder(
             future: DatabaseServices.getDocument(),
             builder: (_, snapshot) {
               if (snapshot.hasData) {
                 return LiquidPullToRefresh(
                   onRefresh: refreshData,
-                  backgroundColor: Colors.orangeAccent,
+                  backgroundColor: Colors.green,
                   springAnimationDurationInMilliseconds: 750,
-                  color: Colors.green[200],
+                  color: Colors.blue[100],
                   // showChildOpacityTransition: true,
                   child: ListView.builder(
                     itemCount: snapshot.data.length,
@@ -103,7 +104,7 @@ class _CatatanPageState extends State<CatatanPage> {
                             padding: EdgeInsets.all(10),
                             height: 100,
                             decoration: BoxDecoration(
-                                color: Colors.green[200],
+                                color: Colors.blue[100],
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
@@ -114,13 +115,25 @@ class _CatatanPageState extends State<CatatanPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Expanded(
-                                  child: Text(
+                                // Expanded(
+                                //   flex: 1,
+                                //   child: Text(
+                                //     snapshot.data[index].data["catatan"],
+                                //     style: TextStyle(
+                                //       fontSize: 14,
+                                //     ),
+                                //     //maxLines: 1,
+                                //   ),
+                                // ),
+                                ListTile(
+                                  leading: Icon(
+                                    Icons.list_alt_outlined,
+                                    size: 40,
+                                  ),
+                                  title: Text(
                                     snapshot.data[index].data["catatan"],
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                    //maxLines: 1,
+                                    maxLines: 2,
+                                    style: TextStyle(fontSize: 14),
                                   ),
                                 ),
                                 Spacer(),
@@ -143,6 +156,7 @@ class _CatatanPageState extends State<CatatanPage> {
                                                     .length -
                                                 5),
                                     softWrap: false,
+                                    style: TextStyle(fontSize: 12),
                                   ),
                                 )
                               ],
