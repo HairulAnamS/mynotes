@@ -479,6 +479,7 @@ class _IotPageState extends State<IotPage> {
                                     width: MediaQuery.of(context).size.width *
                                         0.35,
                                     height: 50,
+                                    alignment: Alignment.center,
                                     // decoration: BoxDecoration(
                                     //   borderRadius:
                                     //       BorderRadius.circular(10.0),
@@ -489,6 +490,7 @@ class _IotPageState extends State<IotPage> {
                                     // ),
                                     //child: DropdownButtonHideUnderline(
                                     child: DropdownButton(
+                                      icon: Icon(Icons.keyboard_arrow_down),
                                       dropdownColor: Colors.black,
                                       hint: Text("Pilih mode",
                                           style:
@@ -526,7 +528,7 @@ class _IotPageState extends State<IotPage> {
                               textStyle:
                                   TextStyle(fontSize: 14, color: Colors.white)),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
                         garis(),
                         Container(
                           margin: EdgeInsets.only(left: 15, top: 25),

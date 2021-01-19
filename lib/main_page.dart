@@ -9,6 +9,7 @@ import 'package:project1/catatan_page.dart';
 import 'package:project1/dzikir_page.dart';
 import 'package:project1/iot_page.dart';
 import 'package:project1/camera.dart';
+import 'package:project1/birthday_page.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 class MainPage extends StatelessWidget {
@@ -17,6 +18,10 @@ class MainPage extends StatelessWidget {
   static const _menuIOT = 2;
   static const _menuNoted = 3;
   static const _menuCamera = 4;
+  static const _menuBirthday = 5;
+  static const _menuFinance = 6;
+  static const _menuIBM = 7;
+  static const _menuData = 8;
 
   MainPage(this.user);
 
@@ -156,11 +161,11 @@ class MainPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        menu(context, Icons.accessibility, 'IBM', _menuNoted),
+                        menu(context, Icons.cake, 'Birthday', _menuBirthday),
                         menu(context, Icons.money_off_outlined, 'Finance',
-                            _menuCamera),
-                        menu(context, Icons.timelapse, 'Dzikir', _menuDzikir),
-                        menu(context, Icons.cake, 'Birthday', _menuIOT),
+                            _menuFinance),
+                        menu(context, Icons.accessibility, 'IBM', _menuIBM),
+                        menu(context, Icons.folder, 'Data', _menuData),
                       ],
                     ),
                   ],
@@ -209,6 +214,11 @@ class MainPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CatatanPage()),
+                  );
+                } else if (aIdMenu == _menuBirthday) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BirthDayPage()),
                   );
                 }
               }),
