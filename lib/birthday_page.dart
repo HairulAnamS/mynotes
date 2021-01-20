@@ -6,6 +6,8 @@ import 'package:project1/people.dart';
 import 'package:intl/intl.dart';
 import 'package:project1/birthdayInput_page.dart';
 import 'package:project1/constant.dart';
+import 'package:custom_switch/custom_switch.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class BirthDayPage extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class BirthDayPage extends StatefulWidget {
 
 class _BirthDayPageState extends State<BirthDayPage> {
   bool isLoading = true;
+  bool statusFilter = false;
   People people;
   PeopleDB peopleDB;
   List<People> peopleList = [];
@@ -67,70 +70,93 @@ class _BirthDayPageState extends State<BirthDayPage> {
               backgroundColor: Colors.blue[700]),
           body: (isLoading)
               ? Center(child: CircularProgressIndicator())
-              // : Container(
-              //     color: Colors.red,
-              //     height: 100,
-              //   ),
               : Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      margin: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(
-                            color: Colors.blue[700],
-                            style: BorderStyle.solid,
-                            width: 1.0),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                            // dropdownColor: Colors.lightBlue,
-                            hint: Text('Pilih Bulan'),
-                            elevation: 0,
-                            isExpanded: true,
-                            value: bulan,
-                            items: bulanList.map((value) {
-                              return DropdownMenuItem(
-                                child: Text(value),
-                                value: value,
-                              );
-                            }).toList(),
-                            onChanged: (item) {
-                              setState(() {
-                                bulan = item;
-                                // if (bulan != null) {
-                                //   selectedKota = null;
-                                // }
-                                // getDataKota();
-                              });
-                            }),
-                      ),
-                    ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 10),
-                      child: TextField(
-                        onChanged: (value) {},
-                        controller: controlNama,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(height: 0.5),
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.blue[700]),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.blue[700]),
-                          ),
-
-                          hintText: "Input Nama",
-                          // labelText: "Pekerjaan",
+                      padding: const EdgeInsets.all(5.0),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: FlutterSwitch(
+                          activeText: "Filter ON",
+                          inactiveText: "Filter OFF",
+                          value: statusFilter,
+                          valueFontSize: 10.0,
+                          width: 80,
+                          height: 25,
+                          borderRadius: 10.0,
+                          showOnOff: true,
+                          onToggle: (val) {
+                            setState(() {
+                              statusFilter = val;
+                            });
+                          },
                         ),
                       ),
                     ),
+                    (statusFilter == true)
+                        ? Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
+                            margin: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(
+                                  color: Colors.blue[700],
+                                  style: BorderStyle.solid,
+                                  width: 1.0),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                  // dropdownColor: Colors.lightBlue,
+                                  hint: Text('Pilih Bulan'),
+                                  elevation: 0,
+                                  isExpanded: true,
+                                  value: bulan,
+                                  items: bulanList.map((value) {
+                                    return DropdownMenuItem(
+                                      child: Text(value),
+                                      value: value,
+                                    );
+                                  }).toList(),
+                                  onChanged: (item) {
+                                    setState(() {
+                                      bulan = item;
+                                      // if (bulan != null) {
+                                      //   selectedKota = null;
+                                      // }
+                                      // getDataKota();
+                                    });
+                                  }),
+                            ),
+                          )
+                        : Container(),
+                    (statusFilter == true)
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(40, 0, 40, 10),
+                            child: TextField(
+                              onChanged: (value) {},
+                              controller: controlNama,
+                              keyboardType: TextInputType.text,
+                              style: TextStyle(height: 0.5),
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                      width: 1, color: Colors.blue[700]),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  borderSide: BorderSide(
+                                      width: 1, color: Colors.blue[700]),
+                                ),
+
+                                hintText: "Input Nama",
+                                // labelText: "Pekerjaan",
+                              ),
+                            ),
+                          )
+                        : Container(),
                     Expanded(
                       child: ListView.builder(
                           // shrinkWrap: true,
@@ -145,7 +171,7 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                 ListTile(
                                   leading: CircleAvatar(
                                     radius: 20,
-                                    backgroundColor: Colors.redAccent,
+                                    backgroundColor: Colors.white,
                                     backgroundImage: (peoples.urlPhoto == "" ||
                                             peoples.urlPhoto == null)
                                         ? AssetImage("img/noImage.jpg")
@@ -181,7 +207,7 @@ class _BirthDayPageState extends State<BirthDayPage> {
               Navigator.of(context)
                   .push(
                 new MaterialPageRoute<String>(
-                    builder: (context) => new BirthdayInputPage(null, modeNew)),
+                    builder: (context) => new BirthdayInputPage(modeNew)),
               )
                   .then((String val) {
                 setState(() {});

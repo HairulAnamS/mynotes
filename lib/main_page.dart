@@ -164,7 +164,7 @@ class MainPage extends StatelessWidget {
                         menu(context, Icons.cake, 'Birthday', _menuBirthday),
                         menu(context, Icons.money_off_outlined, 'Finance',
                             _menuFinance),
-                        menu(context, Icons.accessibility, 'IBM', _menuIBM),
+                        menu(context, Icons.accessibility, 'BMI', _menuIBM),
                         menu(context, Icons.folder, 'Data', _menuData),
                       ],
                     ),
@@ -191,7 +191,7 @@ class MainPage extends StatelessWidget {
           IconButton(
               icon: Icon(
                 aIcon,
-                color: Colors.blue,
+                color: Colors.blue[700],
               ),
               iconSize: 40,
               onPressed: () {

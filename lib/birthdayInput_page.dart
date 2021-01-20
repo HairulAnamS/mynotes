@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project1/people.dart';
+import 'package:date_time_picker/date_time_picker.dart';
+import 'package:intl/intl.dart';
 
 class BirthdayInputPage extends StatefulWidget {
-  final People people;
+  // final People people;
   final int fMode;
-  BirthdayInputPage(this.people, this.fMode);
+  BirthdayInputPage(this.fMode);
 
   @override
   _BirthdayInputPageState createState() => _BirthdayInputPageState();
@@ -12,16 +14,29 @@ class BirthdayInputPage extends StatefulWidget {
 
 class _BirthdayInputPageState extends State<BirthdayInputPage> {
   TextEditingController controlNama = TextEditingController();
-  People people;
+
   String urlImage;
   bool validateNama;
+  int genderValue = 0;
+  DateTime fTglLahir;
+  String errMsg;
+
+  int fIdPeople;
+  People people;
+  PeopleDB peopleDB;
 
   @override
   void initState() {
     super.initState();
     validateNama = true;
 
-    people = widget.people;
+    people = new People();
+    peopleDB = new PeopleDB();
+
+    getPeopleID();
+    print('idpeople init: $fIdPeople');
+
+    // people = widget.people;
 
     // controlNama.text = people.nama;
     // if (people.urlPhoto != "") urlImage = people.urlPhoto;
@@ -33,6 +48,62 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
   void dispose() {
     controlNama.dispose();
     super.dispose();
+  }
+
+  void getPeopleID() async {
+    fIdPeople = await peopleDB.getMaxID();
+  }
+
+  void handleRadioValueChange(int value) {
+    setState(() {
+      genderValue = value;
+      switch (genderValue) {
+        case 0:
+          break;
+        case 1:
+          break;
+        case 2:
+          break;
+      }
+    });
+  }
+
+  loadData() {
+    people.idpeople = fIdPeople;
+    people.nama = controlNama.text;
+    people.jenisKelamin = "L";
+    people.urlPhoto = urlImage;
+    people.tglLahir = fTglLahir;
+    people.tglCreate = DateTime.now();
+  }
+
+  Future<void> insertPeople(BuildContext context) async {
+    try {
+      if (_checkValidate()) {
+        loadData();
+        peopleDB.insert(people);
+      } else {
+        errMsg = "Content harus diisi";
+        print(errMsg);
+        // Alertku.showAlertCustom(context, errMsg);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  bool _checkValidate() {
+    validateNama = true;
+    bool result = true;
+
+    setState(() {
+      if (controlNama.text.trim() == "") {
+        validateNama = false;
+        result = false;
+      }
+      print('idpeople validate: $fIdPeople');
+    });
+    return result;
   }
 
   @override
@@ -52,14 +123,15 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             backgroundColor: Colors.blue[700]),
-        body: Center(
-          child: Container(
-              child: Column(
-            children: [
-              Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(10),
+        body: Container(
+            child: ListView(
+          children: [
+            Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Align(
+                    alignment: Alignment.center,
                     child: CircleAvatar(
                         radius: 70,
                         // backgroundImage: AssetImage("img/noprofile.png"),
@@ -69,52 +141,113 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
                         // : NetworkImage(urlImage),
                         ),
                   ),
-                  Positioned(
-                    bottom: 10,
-                    left: 100,
-                    child: GestureDetector(
-                      onTap: () {
-                        // getImage();
-                      },
-                      child: CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.blue[700],
-                          child: Icon(
-                            Icons.add_a_photo,
-                            color: Colors.white,
-                          )),
-                    ),
-                  )
+                ),
+                Positioned(
+                  bottom: 10,
+                  left: 200,
+                  child: GestureDetector(
+                    onTap: () {
+                      // getImage();
+                    },
+                    child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.blue[700],
+                        child: Icon(
+                          Icons.add_a_photo,
+                          color: Colors.white,
+                        )),
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+              child: TextField(
+                onChanged: (value) {
+                  if (fIdPeople == null) {
+                    getPeopleID();
+                    print('idpeople change: $fIdPeople');
+                  } else {
+                    print('idpeople change wes: $fIdPeople');
+                  }
+                },
+                controller: controlNama,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                    labelText: "Nama Lengkap",
+                    icon: Icon(Icons.perm_identity),
+                    errorText: (validateNama) ? null : 'Nama harus diisi'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Row(
+                children: [
+                  Text(
+                    'Jenis Kelamin :',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Radio(
+                      value: 0,
+                      groupValue: genderValue,
+                      onChanged: handleRadioValueChange),
+                  Text('Laki-laki'),
+                  Radio(
+                      value: 1,
+                      groupValue: genderValue,
+                      onChanged: handleRadioValueChange),
+                  Text('Perempuan'),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                child: TextField(
-                  onChanged: (value) {},
-                  controller: controlNama,
-                  keyboardType: TextInputType.text,
-                  // style: TextStyle(height: 0.5),
-                  decoration: InputDecoration(
-                      //filled: true,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide:
-                            BorderSide(width: 1, color: Colors.blue[700]),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide:
-                            BorderSide(width: 1, color: Colors.blue[700]),
-                      ),
-
-                      //hintText: "Username",
-                      labelText: "Nama",
-                      errorText: (validateNama) ? null : 'Nama harus diisi'),
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: DateTimePicker(
+                icon: Icon(Icons.date_range),
+                dateMask: 'd MMM, yyyy',
+                initialValue: DateTime.now().toString(),
+                firstDate: DateTime(1950),
+                lastDate: DateTime(2050),
+                dateLabelText: 'Tanggal Lahir',
+                onChanged: (val) {
+                  setState(() {
+                    fTglLahir =
+                        new DateFormat("yyyy-MM-dd").parse(val);
+                        print(val);
+                  });
+                },
+                validator: (val) {
+                  print(val);
+                  return null;
+                },
+                onSaved: (val) => print(val),
               ),
-            ],
-          )),
-        ),
+            ),
+            SizedBox(height: 100),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Container(
+                // color: Colors.blue[700],
+                width: MediaQuery.of(context).size.width,
+                child: RaisedButton.icon(
+                    color: Colors.blue[700],
+                    icon: Icon(
+                      Icons.save,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'S A V E',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {
+                      insertPeople(context);
+                      Navigator.pop(context);
+                    }),
+              ),
+            )
+          ],
+        )),
       ),
     );
   }
