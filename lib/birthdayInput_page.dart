@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'package:path/path.dart' as _path;
 import 'package:flutter/material.dart';
 import 'package:project1/people.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:project1/loading.dart';
 
 class BirthdayInputPage extends StatefulWidget {
   // final People people;
@@ -14,6 +19,7 @@ class BirthdayInputPage extends StatefulWidget {
 
 class _BirthdayInputPageState extends State<BirthdayInputPage> {
   TextEditingController controlNama = TextEditingController();
+  final GlobalKey<State> keyLoader = new GlobalKey<State>();
 
   String urlImage;
   bool validateNama;
@@ -25,10 +31,17 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
   People people;
   PeopleDB peopleDB;
 
+  File fImage;
+  String fNamaImage;
+  bool isLoading;
+
   @override
   void initState() {
     super.initState();
     validateNama = true;
+    urlImage = "";
+    fTglLahir = DateTime.now();
+    isLoading = false;
 
     people = new People();
     peopleDB = new PeopleDB();
@@ -48,6 +61,38 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
   void dispose() {
     controlNama.dispose();
     super.dispose();
+  }
+
+  Future getImage() async {
+    File image;
+    image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (image != null) {
+        fImage = image;
+        fNamaImage = _path.basename(image.path);
+        print(fNamaImage);
+      }
+    });
+
+    if (fImage != null) {
+      // Dialogs.showLoadingDialog(context, keyLoader);
+      uploadImage();
+      // Navigator.of(keyLoader.currentContext, rootNavigator: true).pop();
+    }
+  }
+
+  Future<String> uploadImage() async {
+    StorageReference ref = FirebaseStorage.instance.ref().child(fNamaImage);
+    StorageUploadTask uploadtTask = ref.putFile(fImage);
+
+    var urlDownl = await (await uploadtTask.onComplete).ref.getDownloadURL();
+    setState(() {
+      urlImage = urlDownl.toString();
+    });
+
+    print('Url Gambar : $urlImage');
+    return urlImage;
   }
 
   void getPeopleID() async {
@@ -71,7 +116,7 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
   loadData() {
     people.idpeople = fIdPeople;
     people.nama = controlNama.text;
-    people.jenisKelamin = "L";
+    people.jenisKelamin = (genderValue == 0) ? "L" : "P";
     people.urlPhoto = urlImage;
     people.tglLahir = fTglLahir;
     people.tglCreate = DateTime.now();
@@ -83,9 +128,9 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
         loadData();
         peopleDB.insert(people);
       } else {
-        errMsg = "Content harus diisi";
+        errMsg = "Nama harus diisi";
         print(errMsg);
-        // Alertku.showAlertCustom(context, errMsg);
+        // showAlert(context, errMsg);
       }
     } catch (e) {
       print(e);
@@ -104,6 +149,26 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
       print('idpeople validate: $fIdPeople');
     });
     return result;
+  }
+
+  Future<void> showAlert(BuildContext context, String aMessage) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          //title: Text(''),
+          content: Text(aMessage),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -133,13 +198,12 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
                   child: Align(
                     alignment: Alignment.center,
                     child: CircleAvatar(
-                        radius: 70,
-                        // backgroundImage: AssetImage("img/noprofile.png"),
-                        backgroundImage:
-                            //(urlImage == "")
-                            AssetImage("img/noImage.jpg")
-                        // : NetworkImage(urlImage),
-                        ),
+                      backgroundColor: Colors.white,
+                      radius: 70,
+                      backgroundImage: (urlImage == "")
+                          ? AssetImage("img/noImage.jpg")
+                          : NetworkImage(urlImage),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -147,7 +211,7 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
                   left: 200,
                   child: GestureDetector(
                     onTap: () {
-                      // getImage();
+                      getImage();
                     },
                     child: CircleAvatar(
                         radius: 20,
@@ -205,15 +269,14 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
               child: DateTimePicker(
                 icon: Icon(Icons.date_range),
                 dateMask: 'd MMM, yyyy',
-                initialValue: DateTime.now().toString(),
+                initialValue: fTglLahir.toString(),
                 firstDate: DateTime(1950),
                 lastDate: DateTime(2050),
                 dateLabelText: 'Tanggal Lahir',
                 onChanged: (val) {
                   setState(() {
-                    fTglLahir =
-                        new DateFormat("yyyy-MM-dd").parse(val);
-                        print(val);
+                    fTglLahir = new DateFormat("yyyy-MM-dd").parse(val);
+                    print(val);
                   });
                 },
                 validator: (val) {

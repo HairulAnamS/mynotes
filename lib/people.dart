@@ -81,6 +81,10 @@ class PeopleDB {
     }, merge: true);
   }
 
+  Future<void> delete(String id) async {
+    await dataCollection.document(id).delete();
+  }
+
   selectByID(int id) {
     return dataCollection.where('idpeople', isEqualTo: id).getDocuments();
   }
@@ -118,8 +122,10 @@ class PeopleDB {
         print('idpeople people: ${result.data["idpeople"] + 1}');
 
         id = result.data["idpeople"] + 1;
+          
       });
     });
+    if(id == 0) id = id + 1;
     return id;
   }
 
@@ -127,7 +133,7 @@ class PeopleDB {
     List<People> peopleList = [];
     await dataCollection
         // .where('iduserPosting', isEqualTo: iduser)
-        .orderBy('tglCreate', descending: true)
+        .orderBy('nama', descending: false)
         .getDocuments()
         .then((docs) {
       if (docs.documents.length > 0) {
