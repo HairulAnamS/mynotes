@@ -5,6 +5,7 @@ class People {
   int idpeople;
   String nama;
   String jenisKelamin;
+  String bulan;
   DateTime tglLahir;
   String urlPhoto;
   DateTime tglCreate;
@@ -13,6 +14,7 @@ class People {
       {this.idpeople,
       this.nama,
       this.jenisKelamin,
+      this.bulan,
       this.tglLahir,
       this.urlPhoto,
       this.tglCreate});
@@ -22,6 +24,7 @@ class People {
         idpeople: map["idpeople"],
         nama: map["nama"],
         jenisKelamin: map["jenisKelamin"],
+        bulan: map["bulan"],
         tglLahir: DateTime.fromMillisecondsSinceEpoch(
             map["tglLahir"].millisecondsSinceEpoch),
         urlPhoto: map["urlPhoto"],
@@ -34,6 +37,7 @@ class People {
       "idpeople": idpeople,
       "nama": nama,
       "jenisKelamin": jenisKelamin,
+      "bulan": bulan,
       "tglLahir": tglLahir,
       "urlPhoto": urlPhoto,
       "tglCreate": tglCreate
@@ -43,6 +47,17 @@ class People {
   @override
   String toString() {
     return "People{idpeople: $idpeople, nama: $nama, jenisKelamin: $jenisKelamin}";
+  }
+
+  factory People.clear() {
+    return People(
+        idpeople: 0,
+        nama: "",
+        jenisKelamin: "L",
+        bulan: "",
+        tglLahir: DateTime.now(),
+        urlPhoto: "",
+        tglCreate: DateTime.now());
   }
 }
 
@@ -66,6 +81,7 @@ class PeopleDB {
       'idpeople': people.idpeople,
       'nama': people.nama,
       'jenisKelamin': people.jenisKelamin,
+      'bulan': people.bulan,
       'tglLahir': people.tglLahir,
       'urlPhoto': people.urlPhoto,
       'tglCreate': people.tglCreate
@@ -76,6 +92,7 @@ class PeopleDB {
     await dataCollection.document(people.idpeople.toString()).setData({
       'nama': people.nama,
       'jenisKelamin': people.jenisKelamin,
+      'bulan': people.bulan,
       'tglLahir': people.tglLahir,
       'urlPhoto': people.urlPhoto
     }, merge: true);
@@ -100,7 +117,7 @@ class PeopleDB {
     return people;
   }
 
-  People selectByIDNew2(int id)  {
+  People selectByIDNew2(int id) {
     dataCollection.where('idpeople', isEqualTo: id).getDocuments().then((docs) {
       if (docs.documents.length > 0) {
         people = People.fromJson(docs.documents[0].data);
@@ -109,7 +126,6 @@ class PeopleDB {
 
     return people;
   }
-
 
   Future<int> getMaxID() async {
     int id = 0;
@@ -122,17 +138,15 @@ class PeopleDB {
         print('idpeople people: ${result.data["idpeople"] + 1}');
 
         id = result.data["idpeople"] + 1;
-          
       });
     });
-    if(id == 0) id = id + 1;
+    if (id == 0) id = id + 1;
     return id;
   }
 
   Future<List<People>> getPeople() async {
     List<People> peopleList = [];
     await dataCollection
-        // .where('iduserPosting', isEqualTo: iduser)
         .orderBy('nama', descending: false)
         .getDocuments()
         .then((docs) {
@@ -147,4 +161,38 @@ class PeopleDB {
     return peopleList;
   }
 
+  Future<List<People>> getPeopleFilter(String aValue, bool aIsBulan) async {
+    List<People> peopleList = [];
+    if (aIsBulan) {
+      await dataCollection
+          .where('bulan', isEqualTo: aValue)
+          .orderBy('nama', descending: false)
+          .getDocuments()
+          .then((docs) {
+        if (docs.documents.length > 0) {
+          peopleList.clear();
+          for (int i = 0; i < docs.documents.length; i++) {
+            peopleList.add(People.fromJson(docs.documents[i].data));
+          }
+        }
+      });
+    }else{
+      await dataCollection
+          // .where('nama', isEqualTo: aValue)
+          .orderBy('nama', descending: false)
+          .startAt([aValue]).endAt([aValue +'\uf8ff'])
+          // .where('nama', isLessThan: aValue)
+          .getDocuments()
+          .then((docs) {
+        if (docs.documents.length > 0) {
+          peopleList.clear();
+          for (int i = 0; i < docs.documents.length; i++) {
+            peopleList.add(People.fromJson(docs.documents[i].data));
+          }
+        }
+      }); 
+    }
+
+    return peopleList;
+  }
 }

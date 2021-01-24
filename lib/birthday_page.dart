@@ -59,6 +59,15 @@ class _BirthDayPageState extends State<BirthDayPage> {
     });
   }
 
+  void ambilDatabyFilter(String aValue, bool aisBulan) async {
+    print('start ambil data');
+    peopleList = await peopleDB.getPeopleFilter(aValue, aisBulan);
+    print('start selesai data');
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   Future<void> showConfirm(
       BuildContext context, String aMessage, String aIdPeople) {
     Widget yaButton = FlatButton(
@@ -99,8 +108,7 @@ class _BirthDayPageState extends State<BirthDayPage> {
     );
   }
 
-  int hitungUmur(DateTime birthDate){
-
+  int hitungUmur(DateTime birthDate) {
     int age = 0;
     DateTime currentDate = DateTime.now();
     age = currentDate.year - birthDate.year;
@@ -152,6 +160,11 @@ class _BirthDayPageState extends State<BirthDayPage> {
                           onToggle: (val) {
                             setState(() {
                               statusFilter = val;
+                              if (!statusFilter) {
+                                ambilData();
+                                // bulan = "";
+                                controlNama.text = "";
+                              }
                             });
                           },
                         ),
@@ -184,6 +197,7 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                   onChanged: (item) {
                                     setState(() {
                                       bulan = item;
+                                      ambilDatabyFilter(bulan, true);
                                     });
                                   }),
                             ),
@@ -193,7 +207,12 @@ class _BirthDayPageState extends State<BirthDayPage> {
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(40, 0, 40, 10),
                             child: TextField(
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                setState(() {
+                                  print(value);
+                                  ambilDatabyFilter(value, false);
+                                });
+                              },
                               controller: controlNama,
                               keyboardType: TextInputType.text,
                               style: TextStyle(height: 0.5),
@@ -232,50 +251,74 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                           : Colors.white,
                                       child: Column(
                                         children: [
-                                          ListTile(
-                                            leading: CircleAvatar(
-                                              radius: 23,
-                                              backgroundColor:
-                                                  (peoples.jenisKelamin == "L")
-                                                      ? Colors.blueAccent
-                                                      : Colors.pinkAccent,
-                                              child: CircleAvatar(
-                                                radius: 20,
-                                                backgroundColor: Colors.white,
-                                                backgroundImage:
-                                                    (peoples.urlPhoto == "" ||
-                                                            peoples.urlPhoto ==
-                                                                null)
-                                                        ? AssetImage(
-                                                            "img/noImage.jpg")
-                                                        : NetworkImage(
-                                                            peoples.urlPhoto),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .push(
+                                                new MaterialPageRoute<String>(
+                                                    builder: (context) =>
+                                                        new BirthdayInputPage(
+                                                            peoples, modeEdit)),
+                                              )
+                                                  .then((String val) {
+                                                setState(() {
+                                                  print('ambil data lagi');
+                                                  ambilData();
+                                                });
+                                              });
+                                            },
+                                            child: ListTile(
+                                              leading: CircleAvatar(
+                                                radius: 23,
+                                                backgroundColor:
+                                                    (peoples.jenisKelamin ==
+                                                            "L")
+                                                        ? Colors.blueAccent
+                                                        : Colors.pinkAccent,
+                                                child: CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundColor: Colors.white,
+                                                  backgroundImage: (peoples
+                                                                  .urlPhoto ==
+                                                              "" ||
+                                                          peoples.urlPhoto ==
+                                                              null)
+                                                      ? AssetImage(
+                                                          "img/noImage.jpg")
+                                                      : NetworkImage(
+                                                          peoples.urlPhoto),
+                                                ),
                                               ),
-                                            ),
-                                            title: Text(
-                                              peoples.nama,
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                            subtitle: Text(
-                                              DateFormat('dd MMM yyyy')
-                                                  .format(peoples.tglLahir)  + ' - ' + hitungUmur(peoples.tglLahir).toString() + ' tahun',
-                                              style: TextStyle(fontSize: 11),
-                                            ),
-                                            trailing: IconButton(
-                                              icon: Icon(Icons.delete),
-                                              color: Colors.red,
-                                              onPressed: () {
-                                                print('hapus data ' +
-                                                    peoples.idpeople
-                                                        .toString());
-                                                showConfirm(
-                                                    context,
-                                                    'Apakah yakin menghapus ' +
-                                                        peoples.nama +
-                                                        ' ?',
-                                                    peoples.idpeople
-                                                        .toString());
-                                              },
+                                              title: Text(
+                                                peoples.nama,
+                                                style: TextStyle(fontSize: 16),
+                                              ),
+                                              subtitle: Text(
+                                                DateFormat('dd MMM yyyy')
+                                                        .format(
+                                                            peoples.tglLahir) +
+                                                    ' - ' +
+                                                    hitungUmur(peoples.tglLahir)
+                                                        .toString() +
+                                                    ' tahun',
+                                                style: TextStyle(fontSize: 11),
+                                              ),
+                                              trailing: IconButton(
+                                                icon: Icon(Icons.delete),
+                                                color: Colors.red,
+                                                onPressed: () {
+                                                  print('hapus data ' +
+                                                      peoples.idpeople
+                                                          .toString());
+                                                  showConfirm(
+                                                      context,
+                                                      'Apakah yakin menghapus ' +
+                                                          peoples.nama +
+                                                          ' ?',
+                                                      peoples.idpeople
+                                                          .toString());
+                                                },
+                                              ),
                                             ),
                                           ),
                                           Container(
@@ -286,18 +329,22 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                       ));
                                 }),
                           )
-                        : Center(
-                            heightFactor: 10,
-                            child: Container(
-                              // color: Colors.blue[100],
-                              // height: 100,
-                              child: Text(
-                                'Data Kosong',
-                                style: GoogleFonts.lobster(
-                                    textStyle: TextStyle(
-                                        fontSize: 24, color: Colors.grey)),
-                              ),
-                            ),
+                        : Expanded(
+                            child: ListView(children: [
+                              Center(
+                                heightFactor: 2,
+                                child: Container(
+                                  // color: Colors.blue[100],
+                                  height: 100,
+                                  child: Text(
+                                    'Data Kosong',
+                                    style: GoogleFonts.lobster(
+                                        textStyle: TextStyle(
+                                            fontSize: 24, color: Colors.grey)),
+                                  ),
+                                ),
+                              )
+                            ]),
                           ),
                   ],
                 ),
@@ -307,7 +354,8 @@ class _BirthDayPageState extends State<BirthDayPage> {
               Navigator.of(context)
                   .push(
                 new MaterialPageRoute<String>(
-                    builder: (context) => new BirthdayInputPage(modeNew)),
+                    builder: (context) =>
+                        new BirthdayInputPage(People.clear(), modeNew)),
               )
                   .then((String val) {
                 setState(() {

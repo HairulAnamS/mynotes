@@ -1,17 +1,18 @@
 import 'dart:io';
 import 'package:path/path.dart' as _path;
 import 'package:flutter/material.dart';
+import 'package:project1/constant.dart';
 import 'package:project1/people.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:project1/loading.dart';
+// import 'package:project1/loading.dart';
 
 class BirthdayInputPage extends StatefulWidget {
-  // final People people;
-  final int fMode;
-  BirthdayInputPage(this.fMode);
+  final People aPeople;
+  final int aMode;
+  BirthdayInputPage(this.aPeople, this.aMode);
 
   @override
   _BirthdayInputPageState createState() => _BirthdayInputPageState();
@@ -34,6 +35,7 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
   File fImage;
   String fNamaImage;
   bool isLoading;
+  int fMode;
 
   @override
   void initState() {
@@ -42,25 +44,29 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
     urlImage = "";
     fTglLahir = DateTime.now();
     isLoading = false;
+    fMode = widget.aMode;
 
-    people = new People();
+    // people = new People();
+
+    people = widget.aPeople;
     peopleDB = new PeopleDB();
+    show(people);
 
     getPeopleID();
     print('idpeople init: $fIdPeople');
-
-    // people = widget.people;
-
-    // controlNama.text = people.nama;
-    // if (people.urlPhoto != "") urlImage = people.urlPhoto;
-
-    // _getUser();
   }
 
   @override
   void dispose() {
     controlNama.dispose();
     super.dispose();
+  }
+
+  void show(People people) {
+    controlNama.text = people.nama;
+    genderValue = (people.jenisKelamin == "L") ? 0 : 1;
+    urlImage = people.urlPhoto;
+    fTglLahir = people.tglLahir;
   }
 
   Future getImage() async {
@@ -114,19 +120,26 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
   }
 
   loadData() {
-    people.idpeople = fIdPeople;
+    if (fMode == modeNew) {
+      people.idpeople = fIdPeople;
+      people.tglCreate = DateTime.now();
+    }
     people.nama = controlNama.text;
     people.jenisKelamin = (genderValue == 0) ? "L" : "P";
     people.urlPhoto = urlImage;
     people.tglLahir = fTglLahir;
-    people.tglCreate = DateTime.now();
+    people.bulan = getBulan(people.tglLahir);
   }
 
-  Future<void> insertPeople(BuildContext context) async {
+  Future<void> doSave(BuildContext context) async {
     try {
       if (_checkValidate()) {
         loadData();
-        peopleDB.insert(people);
+        if (fMode == modeNew) {
+          peopleDB.insert(people);
+        }else{
+          peopleDB.update(people);
+        }
       } else {
         errMsg = "Nama harus diisi";
         print(errMsg);
@@ -276,6 +289,7 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
                 onChanged: (val) {
                   setState(() {
                     fTglLahir = new DateFormat("yyyy-MM-dd").parse(val);
+                    getBulan(fTglLahir);
                     print(val);
                   });
                 },
@@ -304,7 +318,7 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () {
-                      insertPeople(context);
+                      doSave(context);
                       Navigator.pop(context);
                     }),
               ),
