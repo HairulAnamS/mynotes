@@ -10,6 +10,7 @@ import 'package:project1/dzikir_page.dart';
 import 'package:project1/iot_page.dart';
 import 'package:project1/camera.dart';
 import 'package:project1/birthday_page.dart';
+import 'package:project1/bmi_page.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 class MainPage extends StatelessWidget {
@@ -20,7 +21,7 @@ class MainPage extends StatelessWidget {
   static const _menuCamera = 4;
   static const _menuBirthday = 5;
   static const _menuFinance = 6;
-  static const _menuIBM = 7;
+  static const _menuBMI = 7;
   static const _menuData = 8;
 
   MainPage(this.user);
@@ -164,7 +165,7 @@ class MainPage extends StatelessWidget {
                         menu(context, Icons.cake, 'Birthday', _menuBirthday),
                         menu(context, Icons.money_off_outlined, 'Finance',
                             _menuFinance),
-                        menu(context, Icons.accessibility, 'BMI', _menuIBM),
+                        menu(context, Icons.accessibility, 'BMI', _menuBMI),
                         menu(context, Icons.folder, 'Data', _menuData),
                       ],
                     ),
@@ -219,6 +220,11 @@ class MainPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BirthDayPage()),
+                  );
+                } else if (aIdMenu == _menuBMI) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BMIPage()),
                   );
                 }
               }),
