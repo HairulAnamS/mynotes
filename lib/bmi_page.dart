@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:flutter_xlider/flutter_xlider.dart';
+import 'package:weight_slider/weight_slider.dart';
 
 class BMIPage extends StatefulWidget {
   @override
@@ -7,6 +9,28 @@ class BMIPage extends StatefulWidget {
 }
 
 class _BMIPageState extends State<BMIPage> {
+  int _weight = 50;
+  double _height = 150;
+  int _age = 22;
+  bool _isMale = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void changeAge(bool isInc) {
+    if (isInc) {
+      setState(() {
+        _age = _age + 1;
+      });
+    } else {
+      setState(() {
+        _age = _age - 1;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,7 +60,7 @@ class _BMIPageState extends State<BMIPage> {
                   children: [
                     Container(
                       height: 150,
-                      width: 200,
+                      width: 180,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -52,7 +76,7 @@ class _BMIPageState extends State<BMIPage> {
                           Padding(
                             padding: EdgeInsets.all(8),
                             child: Text(
-                              'Gender',
+                              'GENDER',
                               style: GoogleFonts.meriendaOne(
                                   textStyle: TextStyle(
                                       fontSize: 16, color: Colors.black)),
@@ -60,7 +84,7 @@ class _BMIPageState extends State<BMIPage> {
                           ),
                           Container(
                             height: 1,
-                            width: 170,
+                            width: 160,
                             color: Colors.grey,
                           ),
                           Row(
@@ -68,7 +92,25 @@ class _BMIPageState extends State<BMIPage> {
                             children: [
                               Column(
                                 children: [
-                                  Icon(Icons.accessibility,size: 60,),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isMale = !_isMale;
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: (_isMale)
+                                          ? Image.asset(
+                                              "img/man-blue.png",
+                                              scale: 1.5,
+                                            )
+                                          : Image.asset(
+                                              "img/man-grey.png",
+                                              scale: 1.5,
+                                            ),
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10.0),
                                     child: Text('Male'),
@@ -76,13 +118,28 @@ class _BMIPageState extends State<BMIPage> {
                                 ],
                               ),
                               Container(
-                                width: 1,
-                                height: 100,
-                                color: Colors.grey
-                              ),
+                                  width: 1, height: 100, color: Colors.grey),
                               Column(
                                 children: [
-                                  Icon(Icons.accessible,size: 60,),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isMale = !_isMale;
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: (_isMale)
+                                          ? Image.asset(
+                                              "img/woman-grey.png",
+                                              scale: 1.5,
+                                            )
+                                          : Image.asset(
+                                              "img/woman-blue.png",
+                                              scale: 1.5,
+                                            ),
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10.0),
                                     child: Text('Female'),
@@ -96,7 +153,7 @@ class _BMIPageState extends State<BMIPage> {
                     ),
                     Container(
                       height: 150,
-                      width: 100,
+                      width: 120,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -106,6 +163,70 @@ class _BMIPageState extends State<BMIPage> {
                                 blurRadius: 5,
                                 offset: Offset(2, 2))
                           ]),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              'AGE',
+                              style: GoogleFonts.meriendaOne(
+                                  textStyle: TextStyle(
+                                      fontSize: 16, color: Colors.black)),
+                            ),
+                          ),
+                          Container(
+                            height: 1,
+                            width: 100,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            _age.toString(),
+                            style: GoogleFonts.meriendaOne(
+                                textStyle: TextStyle(
+                                    fontSize: 24, color: Colors.black)),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 55,
+                                padding: EdgeInsets.fromLTRB(8, 15, 8, 8),
+                                child: RaisedButton(
+                                  color: Colors.deepOrange[400],
+                                  onPressed: () {
+                                    changeAge(false);
+                                  },
+                                  child: Text(
+                                    '-',
+                                    style: TextStyle(
+                                        fontSize: 24, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 55,
+                                padding: EdgeInsets.fromLTRB(8, 15, 8, 8),
+                                child: RaisedButton(
+                                  color: Colors.deepOrange[400],
+                                  onPressed: () {
+                                    changeAge(true);
+                                  },
+                                  child: Text(
+                                    '+',
+                                    style: TextStyle(
+                                        fontSize: 24, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -113,7 +234,7 @@ class _BMIPageState extends State<BMIPage> {
                   height: 20,
                 ),
                 Container(
-                  height: 150,
+                  height: 220,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -129,7 +250,7 @@ class _BMIPageState extends State<BMIPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Height (cm)',
+                          'WEIGHT',
                           style: GoogleFonts.meriendaOne(
                               textStyle:
                                   TextStyle(fontSize: 16, color: Colors.black)),
@@ -139,7 +260,19 @@ class _BMIPageState extends State<BMIPage> {
                         height: 1,
                         width: 300,
                         color: Colors.grey,
-                      )
+                      ),
+                      Container(
+                        // width: 700,
+                        height: 180,
+                        // color: Colors.teal,
+                        child: WeightSlider(
+                          weight: _weight,
+                          minWeight: 40,
+                          maxWeight: 120,
+                          onChange: (val) => setState(() => this._weight = val),
+                          unit: ' kg', // optional
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -163,7 +296,7 @@ class _BMIPageState extends State<BMIPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Weight (kg)',
+                          'HEIGHT',
                           style: GoogleFonts.meriendaOne(
                               textStyle:
                                   TextStyle(fontSize: 16, color: Colors.black)),
@@ -173,6 +306,30 @@ class _BMIPageState extends State<BMIPage> {
                         height: 1,
                         width: 300,
                         color: Colors.grey,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          _height.round().toString() + ' cm',
+                          style: GoogleFonts.meriendaOne(
+                              textStyle:
+                                  TextStyle(fontSize: 16, color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Slider(
+                          value: _height,
+                          min: 100,
+                          max: 200,
+                          divisions: 100,
+                          label: _height.round().toString(),
+                          onChanged: (double value) {
+                            setState(() {
+                              _height = value;
+                            });
+                          },
+                        ),
                       )
                     ],
                   ),

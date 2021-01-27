@@ -200,61 +200,64 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: "Password"),
                   ),
                 ),
-                RaisedButton(
-                  onPressed: () async {
-                    _handleSubmit(context, true);
-                    // if (_checkEmailPassword(true)) {
-                    //   userLogin = await AuthServices.signIn(
-                    //       control_email.text, control_password.text);
-                    //   if (userLogin == null) {
-                    //     message = "Email dan password salah.";
-                    //     _showAlert(context, message);
-                    //   }
-                    // } else {
-                    //   _showAlert(context, message);
-                    // }
-                  },
-                  child: Text(
-                    "       LOGIN       ",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  textColor: Colors.white,
-                  color: Colors.blue[700],
-                  splashColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                Container(
+                  width: 200,
+                  child: RaisedButton(
+                    onPressed: () async {
+                      _handleSubmit(context, true);
+                      // if (_checkEmailPassword(true)) {
+                      //   userLogin = await AuthServices.signIn(
+                      //       control_email.text, control_password.text);
+                      //   if (userLogin == null) {
+                      //     message = "Email dan password salah.";
+                      //     _showAlert(context, message);
+                      //   }
+                      // } else {
+                      //   _showAlert(context, message);
+                      // }
+                    },
+                    child: Text(
+                      "LOGIN",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    textColor: Colors.white,
+                    color: Colors.blue[700],
+                    splashColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                 ),
-                SizedBox(height: 20),
-                RaisedButton(
-                  child: Text(
-                    "     SIGN UP     ",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  onPressed: () async {
-                    _handleSubmit(context, false);
-                    // if (_checkEmailPassword(false)) {
-                    //   userSignUp = await AuthServices.signUp(
-                    //       control_email.text, control_password.text);
-                    //   if (userSignUp == null) {
-                    //     message = "Daftar user gagal.";
-                    //     _showAlert(context, message);
-                    //   } else {
-                    //     message = "Daftar user berhasil";
-                    //     _showAlert(context, message);
-                    //   }
-                    // } else {
-                    //   _showAlert(context, message);
-                    // }
-                  },
-                  textColor: Colors.blue[700],
-                  color: Colors.white,
-                  splashColor: Colors.blue,
-                  //shape: StadiumBorder(),
-                  // shape: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.circular(20),
-                  // ),
-                ),
+                SizedBox(height: 70),
+                // RaisedButton(
+                //   child: Text(
+                //     "     SIGN UP     ",
+                //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                //   ),
+                //   onPressed: () async {
+                //     _handleSubmit(context, false);
+                //     // if (_checkEmailPassword(false)) {
+                //     //   userSignUp = await AuthServices.signUp(
+                //     //       control_email.text, control_password.text);
+                //     //   if (userSignUp == null) {
+                //     //     message = "Daftar user gagal.";
+                //     //     _showAlert(context, message);
+                //     //   } else {
+                //     //     message = "Daftar user berhasil";
+                //     //     _showAlert(context, message);
+                //     //   }
+                //     // } else {
+                //     //   _showAlert(context, message);
+                //     // }
+                //   },
+                //   textColor: Colors.blue[700],
+                //   color: Colors.white,
+                //   splashColor: Colors.blue,
+                //   //shape: StadiumBorder(),
+                //   // shape: RoundedRectangleBorder(
+                //   //   borderRadius: BorderRadius.circular(20),
+                //   // ),
+                // ),
                 SizedBox(height: 20),
                 Container(
                   width: MediaQuery.of(context).size.width,

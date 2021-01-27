@@ -42,6 +42,8 @@ dependencies:
   intl: ^0.16.1
   date_time_picker: ^1.1.1
   flutter_switch: ^0.2.0
+  flutter_xlider: ^3.4.0
+  weight_slider: ^1.2.0 
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +65,10 @@ flutter:
     - img/ladyslider.jpg
     - img/noImage.jpg
     - img/white-black.jpg
+    - img/man-blue.png
+    - img/man-grey.png
+    - img/woman-blue.png
+    - img/woman-grey.png
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
