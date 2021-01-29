@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:project1/bmiResult_page.dart';
 // import 'package:flutter_xlider/flutter_xlider.dart';
-import 'package:weight_slider/weight_slider.dart';
+// import 'package:weight_slider/weight_slider.dart';
+// import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class BMIPage extends StatefulWidget {
   @override
@@ -9,10 +14,13 @@ class BMIPage extends StatefulWidget {
 }
 
 class _BMIPageState extends State<BMIPage> {
-  int _weight = 50;
+  double _weight = 50;
   double _height = 150;
   int _age = 22;
   bool _isMale = true;
+
+  final RoundedLoadingButtonController btnController =
+      new RoundedLoadingButtonController();
 
   @override
   void initState() {
@@ -29,6 +37,22 @@ class _BMIPageState extends State<BMIPage> {
         _age = _age - 1;
       });
     }
+  }
+
+  void doSomething() async {
+    Timer(Duration(seconds: 3), () {
+      btnController.success();
+      Navigator.of(context)
+          .push(
+        new MaterialPageRoute<String>(
+            builder: (context) => new BMIResultPage('Test')),
+      )
+          .then((String val) {
+        setState(() {
+          btnController.reset();
+        });
+      });
+    });
   }
 
   @override
@@ -79,7 +103,7 @@ class _BMIPageState extends State<BMIPage> {
                               'GENDER',
                               style: GoogleFonts.meriendaOne(
                                   textStyle: TextStyle(
-                                      fontSize: 16, color: Colors.black)),
+                                      fontSize: 16, color: Colors.grey[600])),
                             ),
                           ),
                           Container(
@@ -113,7 +137,9 @@ class _BMIPageState extends State<BMIPage> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10.0),
-                                    child: Text('Male'),
+                                    child: Text('Male',
+                                        style:
+                                            TextStyle(color: Colors.grey[600])),
                                   )
                                 ],
                               ),
@@ -142,7 +168,10 @@ class _BMIPageState extends State<BMIPage> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10.0),
-                                    child: Text('Female'),
+                                    child: Text(
+                                      'Female',
+                                      style: TextStyle(color: Colors.grey[600]),
+                                    ),
                                   )
                                 ],
                               )
@@ -171,7 +200,7 @@ class _BMIPageState extends State<BMIPage> {
                               'AGE',
                               style: GoogleFonts.meriendaOne(
                                   textStyle: TextStyle(
-                                      fontSize: 16, color: Colors.black)),
+                                      fontSize: 16, color: Colors.grey[600])),
                             ),
                           ),
                           Container(
@@ -186,7 +215,7 @@ class _BMIPageState extends State<BMIPage> {
                             _age.toString(),
                             style: GoogleFonts.meriendaOne(
                                 textStyle: TextStyle(
-                                    fontSize: 24, color: Colors.black)),
+                                    fontSize: 24, color: Colors.grey[600])),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,14 +260,14 @@ class _BMIPageState extends State<BMIPage> {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 Container(
-                  height: 220,
+                  // height: 170,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.deepOrange[50],
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey.withOpacity(0.4),
@@ -247,44 +276,133 @@ class _BMIPageState extends State<BMIPage> {
                       ]),
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'WEIGHT',
-                          style: GoogleFonts.meriendaOne(
-                              textStyle:
-                                  TextStyle(fontSize: 16, color: Colors.black)),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(
+                      //     'WEIGHT',
+                      //     style: GoogleFonts.meriendaOne(
+                      //         textStyle:
+                      //             TextStyle(fontSize: 16, color: Colors.black)),
+                      //   ),
+                      // ),
+                      // Container(
+                      //   height: 1,
+                      //   width: 300,
+                      //   color: Colors.grey,
+                      // ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      CircleAvatar(
+                        radius: 62,
+                        backgroundColor: Colors.deepOrange,
+                        child: CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Colors.white,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 20),
+                                child: Text(
+                                  'WEIGHT',
+                                  style: GoogleFonts.paytoneOne(
+                                      textStyle: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.grey[600])),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      _weight.round().toString(),
+                                      style: GoogleFonts.paytoneOne(
+                                          textStyle: TextStyle(
+                                              fontSize: 34,
+                                              color: Colors.grey[600])),
+                                    ),
+                                    Text(
+                                      'kg',
+                                      style: GoogleFonts.paytoneOne(
+                                          textStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey[600])),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        height: 1,
-                        width: 300,
-                        color: Colors.grey,
+
+                      SizedBox(
+                        height: 10,
                       ),
+
                       Container(
-                        // width: 700,
-                        height: 180,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20)),
+                            color: Colors.blue[100],
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.4),
+                                  blurRadius: 5,
+                                  offset: Offset(2, 2))
+                            ]),
+
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            activeTrackColor: Colors.deepOrange,
+                            inactiveTrackColor: Colors.deepOrange[100],
+                            trackHeight: 3.0,
+                            thumbColor: Colors.deepOrange,
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                            overlayColor: Colors.purple.withAlpha(32),
+                            overlayShape:
+                                RoundSliderOverlayShape(overlayRadius: 14.0),
+                          ),
+                          child: Slider(
+                            value: _weight,
+                            min: 0,
+                            max: 150,
+                            divisions: 150,
+                            label: _weight.round().toString(),
+                            onChanged: (double value) {
+                              setState(() {
+                                _weight = value;
+                              });
+                            },
+                          ),
+                        ),
+
                         // color: Colors.teal,
-                        child: WeightSlider(
-                          weight: _weight,
-                          minWeight: 40,
-                          maxWeight: 120,
-                          onChange: (val) => setState(() => this._weight = val),
-                          unit: ' kg', // optional
-                        ),
+                        // child: WeightSlider(
+                        //   weight: _weight,
+                        //   minWeight: 40,
+                        //   maxWeight: 120,
+                        //   onChange: (val) => setState(() => this._weight = val),
+                        //   unit: ' kg', // optional
+                        // ),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 Container(
-                  height: 150,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.deepOrange[50],
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey.withOpacity(0.4),
@@ -298,42 +416,84 @@ class _BMIPageState extends State<BMIPage> {
                         child: Text(
                           'HEIGHT',
                           style: GoogleFonts.meriendaOne(
-                              textStyle:
-                                  TextStyle(fontSize: 16, color: Colors.black)),
+                              textStyle: TextStyle(
+                                  fontSize: 16, color: Colors.grey[600])),
                         ),
                       ),
                       Container(
                         height: 1,
-                        width: 300,
+                        width: 310,
                         color: Colors.grey,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10),
-                        child: Text(
-                          _height.round().toString() + ' cm',
-                          style: GoogleFonts.meriendaOne(
-                              textStyle:
-                                  TextStyle(fontSize: 16, color: Colors.black)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              _height.round().toString(),
+                              style: GoogleFonts.meriendaOne(
+                                  textStyle: TextStyle(
+                                      fontSize: 36, color: Colors.grey[600])),
+                            ),
+                            Text(
+                              'cm',
+                              style: GoogleFonts.meriendaOne(
+                                textStyle: TextStyle(
+                                    fontSize: 18, color: Colors.grey[600]),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Slider(
-                          value: _height,
-                          min: 100,
-                          max: 200,
-                          divisions: 100,
-                          label: _height.round().toString(),
-                          onChanged: (double value) {
-                            setState(() {
-                              _height = value;
-                            });
-                          },
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            activeTrackColor: Colors.blue,
+                            inactiveTrackColor: Colors.blue[100],
+                            trackHeight: 3.0,
+                            thumbColor: Colors.blue,
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                            overlayColor: Colors.purple.withAlpha(32),
+                            overlayShape:
+                                RoundSliderOverlayShape(overlayRadius: 14.0),
+                          ),
+                          child: Slider(
+                            value: _height,
+                            min: 0,
+                            max: 200,
+                            divisions: 200,
+                            label: _height.round().toString(),
+                            onChanged: (double value) {
+                              setState(() {
+                                _height = value;
+                              });
+                            },
+                          ),
                         ),
                       )
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: RoundedLoadingButton(
+                    color: Colors.deepOrange,
+                    width: 200,
+                    height: 50,
+                    child: Text(
+                      'GO !',
+                      style: GoogleFonts.fasterOne(
+                        textStyle:
+                            TextStyle(fontSize: 40, color: Colors.white),
+                      ),
+                    ),
+                    controller: btnController,
+                    onPressed: doSomething,
+                  ),
+                )
               ]),
             )
           ],
