@@ -16,6 +16,7 @@ class BMIPage extends StatefulWidget {
 class _BMIPageState extends State<BMIPage> {
   double _weight = 50;
   double _height = 150;
+  double _hasil = 0;
   int _age = 22;
   bool _isMale = true;
 
@@ -39,13 +40,20 @@ class _BMIPageState extends State<BMIPage> {
     }
   }
 
+  void calculate(){
+    double m = _height/100;
+    _hasil = _weight/(m*m);
+    _hasil = double.parse((_hasil).toStringAsFixed(2));
+  }
+
   void doSomething() async {
     Timer(Duration(seconds: 3), () {
+      calculate();
       btnController.success();
       Navigator.of(context)
           .push(
         new MaterialPageRoute<String>(
-            builder: (context) => new BMIResultPage('Test')),
+            builder: (context) => new BMIResultPage(_hasil, _isMale)),
       )
           .then((String val) {
         setState(() {
