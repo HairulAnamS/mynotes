@@ -2,30 +2,30 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Finance {
-  int idfinance;
+  int idFinance;
   String subjek;
-  DateTime tgltrans;
-  String bulantrans;
-  double nominal;
+  DateTime tglTrans;
+  String bulanTrans;
+  int nominal;
   bool isDebet;
   DateTime tglCreate;
 
   Finance(
-      {this.idfinance,
+      {this.idFinance,
       this.subjek,
-      this.tgltrans,
-      this.bulantrans,
+      this.tglTrans,
+      this.bulanTrans,
       this.nominal,
       this.isDebet,
       this.tglCreate});
 
   factory Finance.fromJson(Map<String, dynamic> map) {
     return Finance(
-        idfinance: map["idfinance"],
+        idFinance: map["idFinance"],
         subjek: map["subjek"],
-        tgltrans: DateTime.fromMillisecondsSinceEpoch(
-            map["tgltrans"].millisecondsSinceEpoch),
-        bulantrans: map["bulantrans"],
+        tglTrans: DateTime.fromMillisecondsSinceEpoch(
+            map["tglTrans"].millisecondsSinceEpoch),
+        bulanTrans: map["bulanTrans"],
         nominal: map["nominal"],
         isDebet: map["isDebet"],
         tglCreate: DateTime.fromMillisecondsSinceEpoch(
@@ -34,10 +34,10 @@ class Finance {
 
   Map<String, dynamic> toJson() {
     return {
-      "idfinance": idfinance,
+      "idFinance": idFinance,
       "subjek": subjek,
-      "tgltrans": tgltrans,
-      "bulantrans": bulantrans,
+      "tglTrans": tglTrans,
+      "bulanTrans": bulanTrans,
       "nominal": nominal,
       "isDebet": isDebet,
       "tglCreate": tglCreate
@@ -46,15 +46,15 @@ class Finance {
 
   @override
   String toString() {
-    return "Finance{idfinance: $idfinance, subjek: $subjek, isDebet: $isDebet}";
+    return "Finance{idFinance: $idFinance, subjek: $subjek, isDebet: $isDebet}";
   }
 
   factory Finance.clear() {
     return Finance(
-        idfinance: 0,
+        idFinance: 0,
         subjek: "",
-        tgltrans: DateTime.now(),
-        bulantrans: "",
+        tglTrans: DateTime.now(),
+        bulanTrans: "",
         nominal: 0,
         isDebet: true,
         tglCreate: DateTime.now());
@@ -77,11 +77,11 @@ class FinanceDB {
       Firestore.instance.collection('finance');
 
   Future<void> insert(Finance finance) async {
-    await dataCollection.document(finance.idfinance.toString()).setData({
-      'idfinance': finance.idfinance,
+    await dataCollection.document(finance.idFinance.toString()).setData({
+      'idFinance': finance.idFinance,
       'subjek': finance.subjek,
-      'tgltrans': finance.tgltrans,
-      'bulantrans': finance.bulantrans,
+      'tglTrans': finance.tglTrans,
+      'bulanTrans': finance.bulanTrans,
       'nominal': finance.nominal,
       'isDebet': finance.isDebet,
       'tglCreate': finance.tglCreate
@@ -89,10 +89,10 @@ class FinanceDB {
   }
 
   Future<void> update(Finance finance) async {
-    await dataCollection.document(finance.idfinance.toString()).setData({
+    await dataCollection.document(finance.idFinance.toString()).setData({
       'subjek': finance.subjek,
-      'tgltrans': finance.tgltrans,
-      'bulantrans': finance.bulantrans,
+      'tglTrans': finance.tglTrans,
+      'bulanTrans': finance.bulanTrans,
       'nominal': finance.nominal,
       'isDebet': finance.isDebet
     }, merge: true);
@@ -103,12 +103,12 @@ class FinanceDB {
   }
 
   selectByID(int id) {
-    return dataCollection.where('idfinance', isEqualTo: id).getDocuments();
+    return dataCollection.where('idFinance', isEqualTo: id).getDocuments();
   }
 
   Future<Finance> selectByIDNew(int id) async {
     QuerySnapshot docs =
-        await dataCollection.where('idfinance', isEqualTo: id).getDocuments();
+        await dataCollection.where('idFinance', isEqualTo: id).getDocuments();
 
     if (docs.documents.length > 0) {
       finance = Finance.fromJson(docs.documents[0].data);
@@ -118,7 +118,7 @@ class FinanceDB {
   }
 
   Finance selectByIDNew2(int id) {
-    dataCollection.where('idfinance', isEqualTo: id).getDocuments().then((docs) {
+    dataCollection.where('idFinance', isEqualTo: id).getDocuments().then((docs) {
       if (docs.documents.length > 0) {
         finance = Finance.fromJson(docs.documents[0].data);
       }
@@ -130,14 +130,14 @@ class FinanceDB {
   Future<int> getMaxID() async {
     int id = 0;
     await dataCollection
-        .orderBy('idfinance', descending: true)
+        .orderBy('idFinance', descending: true)
         .limit(1)
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((result) {
-        print('idfinance finance: ${result.data["idfinance"] + 1}');
+        print('idFinance finance: ${result.data["idFinance"] + 1}');
 
-        id = result.data["idfinance"] + 1;
+        id = result.data["idFinance"] + 1;
       });
     });
     if (id == 0) id = id + 1;
@@ -147,7 +147,7 @@ class FinanceDB {
   Future<List<Finance>> getFinance() async {
     List<Finance> financeList = [];
     await dataCollection
-        .orderBy('nama', descending: false)
+        .orderBy('tglTrans', descending: false)
         .getDocuments()
         .then((docs) {
       if (docs.documents.length > 0) {
