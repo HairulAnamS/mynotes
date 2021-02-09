@@ -188,7 +188,8 @@ class _HistoryPageState extends State<HistoryPage> {
         ),
         (isLoading)
             ? Center(child: CircularProgressIndicator())
-            : Expanded(
+            : Container(
+              height: MediaQuery.of(context).size.height * 0.47,
                 child: ListView.builder(
                     itemCount: financeList.length,
                     itemBuilder: (_, index) {

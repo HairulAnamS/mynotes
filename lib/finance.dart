@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Finance {
   int idFinance;
   String subjek;
+  String kategori;
   DateTime tglTrans;
   String bulanTrans;
   int nominal;
@@ -13,6 +14,7 @@ class Finance {
   Finance(
       {this.idFinance,
       this.subjek,
+      this.kategori,
       this.tglTrans,
       this.bulanTrans,
       this.nominal,
@@ -23,6 +25,7 @@ class Finance {
     return Finance(
         idFinance: map["idFinance"],
         subjek: map["subjek"],
+        kategori: map["kategori"],
         tglTrans: DateTime.fromMillisecondsSinceEpoch(
             map["tglTrans"].millisecondsSinceEpoch),
         bulanTrans: map["bulanTrans"],
@@ -36,6 +39,7 @@ class Finance {
     return {
       "idFinance": idFinance,
       "subjek": subjek,
+      "kategori": kategori,
       "tglTrans": tglTrans,
       "bulanTrans": bulanTrans,
       "nominal": nominal,
@@ -53,6 +57,7 @@ class Finance {
     return Finance(
         idFinance: 0,
         subjek: "",
+        kategori: "",
         tglTrans: DateTime.now(),
         bulanTrans: "",
         nominal: 0,
@@ -80,6 +85,7 @@ class FinanceDB {
     await dataCollection.document(finance.idFinance.toString()).setData({
       'idFinance': finance.idFinance,
       'subjek': finance.subjek,
+      'kategori': finance.kategori,
       'tglTrans': finance.tglTrans,
       'bulanTrans': finance.bulanTrans,
       'nominal': finance.nominal,
@@ -91,6 +97,7 @@ class FinanceDB {
   Future<void> update(Finance finance) async {
     await dataCollection.document(finance.idFinance.toString()).setData({
       'subjek': finance.subjek,
+      'kategori': finance.kategori,
       'tglTrans': finance.tglTrans,
       'bulanTrans': finance.bulanTrans,
       'nominal': finance.nominal,
