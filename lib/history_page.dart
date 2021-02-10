@@ -12,6 +12,7 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   bool isLoading;
+  bool isDelete;
   Finance finance;
   FinanceDB financeDB;
   List<Finance> financeList = [];
@@ -19,6 +20,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     isLoading = true;
+    isDelete = false;
     finance = new Finance();
     financeDB = new FinanceDB();
     ambilData();
@@ -33,6 +35,52 @@ class _HistoryPageState extends State<HistoryPage> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  Future<void> showConfirm(
+      BuildContext context, String aMssg, String aIdFinance) {
+    Widget yesButton = FlatButton(
+      color: Colors.blue,
+      child: Text("Ya"),
+      onPressed: () {
+        isDelete = true;
+        financeDB.delete(aIdFinance);
+        Navigator.of(context).pop();
+        if (this.mounted) {
+          setState(() {
+            print('ambil data lagi');
+            ambilData();
+          });
+        }
+      },
+    );
+
+    Widget noButton = FlatButton(
+      color: Colors.red,
+      child: Text("Tidak"),
+      onPressed: () {
+        isDelete = false;
+        Navigator.of(context).pop();
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => FinancePage()),
+        // );
+      },
+    );
+
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Konfirmasi',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text(aMssg),
+          actions: <Widget>[yesButton, noButton],
+        );
+      },
+    );
   }
 
   @override
@@ -187,64 +235,152 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         ),
         (isLoading)
-            ? Center(child: CircularProgressIndicator())
+            ? Center(heightFactor: 5, child: CircularProgressIndicator())
             : Container(
-              height: MediaQuery.of(context).size.height * 0.47,
-                child: ListView.builder(
-                    itemCount: financeList.length,
-                    itemBuilder: (_, index) {
-                      final finances = financeList[index];
-                      return Container(
-                        padding: EdgeInsets.fromLTRB(0, 0, 5, 5),
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                        height: 72,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: warna,
-                                  blurRadius: 8,
-                                  offset: Offset(2, 2))
-                            ]),
-                        child: ListTile(
-                          leading: Container(
-                            width: 45,
-                            height: 45,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: warna,
+                height: MediaQuery.of(context).size.height * 0.47,
+                child: (financeList.length > 0)
+                    ? ListView.builder(
+                        itemCount: financeList.length,
+                        itemBuilder: (_, index) {
+                          final finances = financeList[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(
+                                new MaterialPageRoute<String>(
+                                    builder: (context) => new FinanceInputPage(
+                                        finances, modeEdit)),
+                              )
+                                  .then((String val) {
+                                setState(() {
+                                  print('ambil data lagi');
+                                  ambilData();
+                                });
+                              });
+                            },
+                            onLongPress: () {
+                              return showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: Text(
+                                    "Konfirmasi",
+                                    style: GoogleFonts.play(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: warna,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  content: Text(
+                                    "Apakah yakin ingin menghapus subjek " +
+                                        finances.subjek +
+                                        ' ?',
+                                    style: GoogleFonts.play(
+                                        textStyle: TextStyle(
+                                      fontSize: 16,
+                                      color: warna,
+                                    )),
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      color: warna,
+                                      onPressed: () {
+                                        isDelete = true;
+                                        financeDB.delete(
+                                            finances.idFinance.toString());
+                                        Navigator.of(ctx).pop();
+                                        if (this.mounted) {
+                                          setState(() {
+                                            print('refresh data habis hapus');
+                                            ambilData();
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        "YA",
+                                        style: GoogleFonts.play(
+                                            textStyle: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white)),
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      color: warna,
+                                      onPressed: () {
+                                        isDelete = false;
+                                        Navigator.of(ctx).pop();
+                                      },
+                                      child: Text(
+                                        "TIDAK",
+                                        style: GoogleFonts.play(
+                                            textStyle: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(0, 0, 5, 5),
+                              margin: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                              height: 72,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: warna,
+                                        blurRadius: 8,
+                                        offset: Offset(2, 2))
+                                  ]),
+                              child: ListTile(
+                                leading: Container(
+                                  width: 45,
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: warna,
+                                  ),
+                                  child: Icon(
+                                      (finances.isDebet)
+                                          ? Icons.trending_up
+                                          : Icons.trending_down,
+                                      color: (finances.isDebet)
+                                          ? Colors.green
+                                          : Colors.red),
+                                ),
+                                title: Text(
+                                  formatter.format(finances.nominal),
+                                  style: GoogleFonts.play(
+                                      textStyle: TextStyle(
+                                          fontSize: 18, color: warna)),
+                                ),
+                                subtitle: Text(
+                                  finances.subjek,
+                                  style: GoogleFonts.play(
+                                      textStyle: TextStyle(
+                                          fontSize: 16, color: warna)),
+                                ),
+                                trailing: Text(
+                                  DateFormat('dd MMM yyyy')
+                                      .format(finances.tglTrans),
+                                  style: GoogleFonts.play(
+                                      textStyle: TextStyle(
+                                          fontSize: 14, color: warna)),
+                                ),
+                              ),
                             ),
-                            child: Icon(
-                                (finances.isDebet)
-                                    ? Icons.trending_up
-                                    : Icons.trending_down,
-                                color: (finances.isDebet)
-                                    ? Colors.green
-                                    : Colors.red),
-                          ),
-                          title: Text(
-                            formatter.format(finances.nominal),
-                            style: GoogleFonts.play(
-                                textStyle:
-                                    TextStyle(fontSize: 18, color: warna)),
-                          ),
-                          subtitle: Text(
-                            finances.subjek,
-                            style: GoogleFonts.play(
-                                textStyle:
-                                    TextStyle(fontSize: 16, color: warna)),
-                          ),
-                          trailing: Text(
-                            DateFormat('dd MMM yyyy').format(finances.tglTrans),
-                            style: GoogleFonts.play(
-                                textStyle:
-                                    TextStyle(fontSize: 14, color: warna)),
-                          ),
+                          );
+                        })
+                    : Center(
+                        child: Text(
+                          'Empty Transactions...',
+                          style: GoogleFonts.play(
+                              textStyle: TextStyle(fontSize: 24, color: warna)),
                         ),
-                      );
-                    }))
+                      ))
       ],
     );
   }

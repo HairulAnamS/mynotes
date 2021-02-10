@@ -26,12 +26,16 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
   int fKategori;
   List<String> options = [
     'Kebutuhan',
+    'Pendapatan',
     'Belanja',
     'Hiburan',
     'Service',
     'Belajar',
     'Jalan-jalan',
   ];
+  bool _validationSubjek;
+  bool _validationNominal;
+  bool _result;
 
   @override
   void initState() {
@@ -39,6 +43,9 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
     fMode = widget.aMode;
     fKategori = 0;
     fIsDebet = true;
+    _validationSubjek = true;
+    _validationNominal = true;
+    _result = true;
 
     finance = widget.aFinance;
     financeDB = new FinanceDB();
@@ -63,7 +70,11 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
   void show(Finance finance) {
     controlSubjek.text = finance.subjek;
     controlNominal.text = finance.nominal.toString();
-    fKategori = 0; // testing bro
+    if (fMode == modeEdit){
+      fKategori = options.indexOf(finance.kategori);
+    }else{
+      fKategori = 0;
+    }
     fIsDebet = (finance.isDebet) ? true : false;
     fTglTrans = finance.tglTrans;
   }
@@ -75,25 +86,46 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
     }
     finance.nominal = int.parse(controlNominal.text);
     finance.subjek = controlSubjek.text;
-    finance.kategori = ''; // Testing bro
+    finance.kategori = options[fKategori];
     finance.tglTrans = fTglTrans;
+    finance.isDebet = fIsDebet;
     finance.bulanTrans = getBulan(finance.tglTrans);
+  }
+
+  bool checkValidate() {
+    _validationSubjek = true;
+    _validationNominal = true;
+    _result = true;
+
+    if (controlSubjek.text.isEmpty) {
+      setState(() {
+        _validationSubjek = false;
+        _result = false;
+      });
+    }
+
+    if (_result) {
+      if (controlNominal.text.isEmpty || controlNominal.text == '0') {
+        setState(() {
+          _validationNominal = false;
+          _result = false;
+        });
+      }
+    }
+
+    return _result;
   }
 
   Future<void> doSave(BuildContext context) async {
     try {
-      //if (_checkValidate()) {
-      loadData();
-      if (fMode == modeNew) {
-        financeDB.insert(finance);
-      } else {
-        financeDB.update(finance);
+      if (checkValidate()) {
+        loadData();
+        if (fMode == modeNew) {
+          financeDB.insert(finance);
+        } else {
+          financeDB.update(finance);
+        }
       }
-      // } else {
-      //   errMsg = "Nama harus diisi";
-      //   print(errMsg);
-      //   // showAlert(context, errMsg);
-      // }
     } catch (e) {
       print(e);
     }
@@ -106,7 +138,11 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: warna,
-          leading: Icon(Icons.arrow_back_ios, color: Colors.white),
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back_ios, color: Colors.white)),
           title: Text(
             'Input Transaction',
             style: GoogleFonts.play(
@@ -208,7 +244,13 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
                       child: ChipsChoice<int>.single(
                         //wrapped: true,
                         value: fKategori,
-                        onChanged: (val) => setState(() => fKategori = val),
+                        onChanged: (val) {
+                          setState(() {
+                            fKategori = val;
+                            print(val.toString());
+                            print(options[val]);
+                          });
+                        },
                         choiceItems: C2Choice.listFrom<int, String>(
                           source: options,
                           value: (i, v) => i,
@@ -230,9 +272,11 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
                         controller: controlSubjek,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
-                          labelText: "Subjek",
-                          icon: Icon(Icons.perm_identity),
-                        ),
+                            labelText: "Subjek",
+                            icon: Icon(Icons.perm_identity),
+                            errorText: _validationSubjek
+                                ? null
+                                : 'Subjek harus diisi'),
                       ),
                     ),
                     Padding(
@@ -244,9 +288,11 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
                         controller: controlNominal,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: "Nominal",
-                          icon: Icon(Icons.monetization_on_outlined),
-                        ),
+                            labelText: "Nominal",
+                            icon: Icon(Icons.monetization_on_outlined),
+                            errorText: _validationNominal
+                                ? null
+                                : 'Nominal harus diisi'),
                       ),
                     ),
                     Padding(
@@ -281,7 +327,9 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
                             child: RaisedButton(
                               onPressed: () {
                                 doSave(context);
-                                Navigator.pop(context);
+                                if (_result) {
+                                  Navigator.pop(context);
+                                }
                               },
                               color: warna,
                               child: Text(

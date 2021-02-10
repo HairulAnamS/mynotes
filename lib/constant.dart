@@ -8,7 +8,6 @@ const int modeDelete = 3;
 const Color warna = const Color.fromARGB(255, 0, 0, 80);
 final formatter = new NumberFormat.currency(locale: 'id', decimalDigits: 0, symbol: 'Rp.');
 
-
 String getBulan(DateTime aDate){
   List bulanList = [
     "Januari",
