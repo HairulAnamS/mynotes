@@ -125,7 +125,10 @@ class FinanceDB {
   }
 
   Finance selectByIDNew2(int id) {
-    dataCollection.where('idFinance', isEqualTo: id).getDocuments().then((docs) {
+    dataCollection
+        .where('idFinance', isEqualTo: id)
+        .getDocuments()
+        .then((docs) {
       if (docs.documents.length > 0) {
         finance = Finance.fromJson(docs.documents[0].data);
       }
@@ -151,10 +154,11 @@ class FinanceDB {
     return id;
   }
 
-  Future<List<Finance>> getFinance() async {
+  Future<List<Finance>> getFinance(String aBulanTrans) async {
     List<Finance> financeList = [];
     await dataCollection
-        .orderBy('tglTrans', descending: false)
+        .where('bulanTrans', isEqualTo: aBulanTrans)
+        .orderBy('tglTrans', descending: true)
         .getDocuments()
         .then((docs) {
       if (docs.documents.length > 0) {
@@ -168,37 +172,46 @@ class FinanceDB {
     return financeList;
   }
 
-  Future<List<Finance>> getFinanceFilter(String aValue, bool aIsBulan) async {
+  Future<int> getSaldo() async {
+    int saldo = 0;
     List<Finance> financeList = [];
-    if (aIsBulan) {
-      await dataCollection
-          .where('bulan', isEqualTo: aValue)
-          .orderBy('nama', descending: false)
-          .getDocuments()
-          .then((docs) {
-        if (docs.documents.length > 0) {
-          financeList.clear();
-          for (int i = 0; i < docs.documents.length; i++) {
-            financeList.add(Finance.fromJson(docs.documents[i].data));
+    await dataCollection
+        .orderBy('tglTrans', descending: true)
+        .getDocuments()
+        .then((docs) {
+      if (docs.documents.length > 0) {
+        financeList.clear();
+        for (int i = 0; i < docs.documents.length; i++) {
+          financeList.add(Finance.fromJson(docs.documents[i].data));
+          if (financeList[i].isDebet) {
+            saldo = saldo + financeList[i].nominal;
+          } else {
+            saldo = saldo - financeList[i].nominal;
           }
         }
-      });
-    }else{
-      await dataCollection
-          // .where('nama', isEqualTo: aValue)
-          .orderBy('nama', descending: false)
-          .startAt([aValue]).endAt([aValue +'\uf8ff'])
-          // .where('nama', isLessThan: aValue)
-          .getDocuments()
-          .then((docs) {
-        if (docs.documents.length > 0) {
-          financeList.clear();
-          for (int i = 0; i < docs.documents.length; i++) {
-            financeList.add(Finance.fromJson(docs.documents[i].data));
-          }
+      }
+    });
+
+    return saldo;
+  }
+
+  Future<List<Finance>> getFinanceFilter(
+      DateTime aTglAwal, DateTime aTglAkhir) async {
+    List<Finance> financeList = [];
+
+    await dataCollection
+        .where('tglTrans', isGreaterThanOrEqualTo: aTglAwal)
+        .where('tglTrans', isLessThanOrEqualTo: aTglAkhir)
+        .orderBy('tglTrans', descending: true)
+        .getDocuments()
+        .then((docs) {
+      if (docs.documents.length > 0) {
+        financeList.clear();
+        for (int i = 0; i < docs.documents.length; i++) {
+          financeList.add(Finance.fromJson(docs.documents[i].data));
         }
-      }); 
-    }
+      }
+    });
 
     return financeList;
   }

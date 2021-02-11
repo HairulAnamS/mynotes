@@ -26,7 +26,7 @@ String getBulan(DateTime aDate){
   String result;
   int idxBulan = aDate.month;
 
-  result = bulanList[idxBulan-1];
+  result = bulanList[idxBulan-1] + ' ' + DateFormat('yyyy').format(aDate);
   print('bulan lahir : ' + result);
   return result;
 }
