@@ -3,6 +3,7 @@ import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
 import 'package:project1/constant.dart';
 import 'package:project1/history_page.dart';
+import 'package:project1/grafik_page.dart';
 
 class FinancePage extends StatefulWidget {
   @override
@@ -70,6 +71,6 @@ Widget _getTab(int idx) {
   if (idx == 0) {
     return HistoryPage();
   } else {
-    return HistoryPage();
+    return GrafikPage();
   } 
 }

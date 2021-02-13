@@ -19,6 +19,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  charts_flutter: ^0.9.0
+  chips_choice: ^2.0.1
+  circular_bottom_navigation: ^1.0.1
   cloud_firestore: ^0.13.7
   cupertino_icons: ^0.1.2
   custom_switch: ^0.0.1
@@ -40,12 +43,10 @@ dependencies:
   path_provider: ^1.6.11
   provider: ^4.0.4
   rflutter_alert: ^1.0.3
+  rounded_loading_button: ^1.0.18
   shared_preferences: 0.5.1+2
   toggle_switch: ^0.1.4
   weight_slider: ^1.2.0
-  rounded_loading_button: ^1.0.18
-  circular_bottom_navigation: ^1.0.1
-  chips_choice: ^2.0.1
 
 dev_dependencies:
   flutter_test:
