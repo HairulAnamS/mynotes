@@ -12,6 +12,7 @@ import 'package:project1/camera.dart';
 import 'package:project1/birthday_page.dart';
 import 'package:project1/bmi_page.dart';
 import 'package:project1/finance_page.dart';
+import 'package:project1/data_page.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 class MainPage extends StatelessWidget {
@@ -231,6 +232,11 @@ class MainPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => FinancePage()),
+                  );
+                } else if (aIdMenu == _menuData) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DataPage()),
                   );
                 }
               }),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/database_services.dart';
 import 'package:project1/catatanInput_page.dart';
 import 'package:project1/constant.dart';
@@ -67,19 +68,48 @@ class _CatatanPageState extends State<CatatanPage> {
                       return Dismissible(
                         key: Key(notes.data["catatan"]),
                         onDismissed: (direction) {
-                          // Remove the item from the data source.
-                          setState(() {
-                            print(notes.documentID);
-                            DatabaseServices.deleteNote(notes.documentID);
-                            snapshot.data.removeAt(index);
-                          });
-
-                          // Then show a snackbar.
-                          // Scaffold.of(context).showSnackBar(
-                          //     SnackBar(content: Text("berhasil dihapus")));
+                          return showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: Text(
+                                "Konfirmasi",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              content: Text(
+                                "Apakah yakin ingin menghapus data ini ?",
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  color: warna,
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop();
+                                    if (this.mounted) {
+                                      setState(() {
+                                        print(notes.documentID);
+                                        DatabaseServices.deleteNote(
+                                            notes.documentID);
+                                        snapshot.data.removeAt(index);
+                                      });
+                                    }
+                                  },
+                                  child: Text("YA",
+                                      style: TextStyle(fontSize: 14)),
+                                ),
+                                FlatButton(
+                                  color: warna,
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text(
+                                    "TIDAK",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         },
-                        // Show a red background as the item is swiped away.
-                        //background: Container(color: Colors.red),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.of(context)

@@ -1,10 +1,8 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/constant.dart';
 import 'package:project1/finance.dart';
-import 'package:intl/intl.dart';
 
 class GrafikPage extends StatefulWidget {
   @override
@@ -153,10 +151,10 @@ class _GrafikPageState extends State<GrafikPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: warna,
         title: Text('Data Income dan Outcome',
             style: GoogleFonts.play(
                 textStyle: TextStyle(fontSize: 20, color: Colors.white))),
-        backgroundColor: warna,
       ),
       body: Column(
         children: [

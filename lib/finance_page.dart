@@ -18,9 +18,11 @@ class _FinancePageState extends State<FinancePage> {
 
   List<TabItem> tabItems = List.of([
     new TabItem(Icons.history, "History", Colors.white,
-        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        labelStyle:
+            TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
     new TabItem(Icons.stacked_line_chart, "Graphic", Colors.white,
-        labelStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        labelStyle:
+            TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
   ]);
 
   @override
@@ -31,39 +33,37 @@ class _FinancePageState extends State<FinancePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          backgroundColor: Colors.white,
-          body: Center(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(1),
-                  child: _getTab(selectedPos),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CircularBottomNavigation(
-                    tabItems,
-                    controller: _navigationController,
-                    barHeight: bottomNavBarHeight,
-                    barBackgroundColor: warna,
-                    selectedIconColor: Colors.orange,
-                    animationDuration: Duration(milliseconds: 300),
-                    selectedCallback: (int selectedPos) {
-                      setState(() {
-                        this.selectedPos = selectedPos;
-                        print(_navigationController.value);
-                        print('pos: ' + selectedPos.toString());
-                      });
-                    },
-                  ),
-                )
-              ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(1),
+              child: _getTab(selectedPos),
             ),
-          ),
-        ));
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: CircularBottomNavigation(
+                tabItems,
+                controller: _navigationController,
+                barHeight: bottomNavBarHeight,
+                barBackgroundColor: warna,
+                selectedIconColor: Colors.orange,
+                animationDuration: Duration(milliseconds: 300),
+                selectedCallback: (int selectedPos) {
+                  setState(() {
+                    this.selectedPos = selectedPos;
+                    print(_navigationController.value);
+                    print('pos: ' + selectedPos.toString());
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -72,5 +72,5 @@ Widget _getTab(int idx) {
     return HistoryPage();
   } else {
     return GrafikPage();
-  } 
+  }
 }

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const int modeBrowse = 0;
@@ -28,7 +29,7 @@ String getBulan(DateTime aDate) {
   int idxBulan = aDate.month;
 
   result = bulanList[idxBulan - 1] + ' ' + DateFormat('yyyy').format(aDate);
-  print('bulan lahir : ' + result);
+  //print('bulan lahir : ' + result);
   return result;
 }
 
@@ -74,3 +75,5 @@ DateTime convertBulan(String aBulan) {
       result.toString());
   return result;
 }
+
+

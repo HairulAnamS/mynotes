@@ -344,6 +344,13 @@ class _HistoryPageState extends State<HistoryPage> {
               SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) =>
+                  //           FinanceInputPage(Finance.clear(), modeNew)),
+                  // );
+
                   Navigator.of(context)
                       .push(
                     new MaterialPageRoute<String>(
