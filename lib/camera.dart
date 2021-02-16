@@ -203,8 +203,8 @@ class _CameraPageState extends State<CameraPage> {
                         //color: Colors.grey,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                          image: AssetImage("img/noImage.jpg"),
-                          fit: BoxFit.cover,
+                          image: AssetImage("img/no_image.png"),
+                          fit: BoxFit.fitWidth,
                         )),
                       )
                     : Container(

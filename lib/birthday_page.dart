@@ -268,25 +268,47 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                               });
                                             },
                                             child: ListTile(
-                                              leading: CircleAvatar(
-                                                radius: 23,
-                                                backgroundColor:
-                                                    (peoples.jenisKelamin ==
-                                                            "L")
-                                                        ? Colors.blueAccent
-                                                        : Colors.pinkAccent,
+                                              leading: GestureDetector(
+                                                onTap: () {
+                                                  return showDialog(
+                                                      context: context,
+                                                      builder:
+                                                          (ctx) => AlertDialog(
+                                                            contentPadding: EdgeInsets.all(5),
+                                                                content:
+                                                                    Container(
+                                                                  height: 300,
+                                                                  // width: 200,
+                                                                  decoration: BoxDecoration(
+                                                                      image: DecorationImage(
+                                                                          image: (peoples.urlPhoto == "" || peoples.urlPhoto == null)
+                                                                              ? AssetImage("img/nouser.png")
+                                                                              : NetworkImage(peoples.urlPhoto),
+                                                                          fit: BoxFit.fitWidth)),
+                                                                ),
+                                                              ));
+                                                },
                                                 child: CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundColor: Colors.white,
-                                                  backgroundImage: (peoples
-                                                                  .urlPhoto ==
-                                                              "" ||
-                                                          peoples.urlPhoto ==
-                                                              null)
-                                                      ? AssetImage(
-                                                          "img/noImage.jpg")
-                                                      : NetworkImage(
-                                                          peoples.urlPhoto),
+                                                  radius: 23,
+                                                  backgroundColor:
+                                                      (peoples.jenisKelamin ==
+                                                              "L")
+                                                          ? Colors.blueAccent
+                                                          : Colors.pinkAccent,
+                                                  child: CircleAvatar(
+                                                    radius: 20,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    backgroundImage: (peoples
+                                                                    .urlPhoto ==
+                                                                "" ||
+                                                            peoples.urlPhoto ==
+                                                                null)
+                                                        ? AssetImage(
+                                                            "img/nouser.png")
+                                                        : NetworkImage(
+                                                            peoples.urlPhoto),
+                                                  ),
                                                 ),
                                               ),
                                               title: Text(
@@ -304,7 +326,8 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                                 style: TextStyle(fontSize: 11),
                                               ),
                                               trailing: IconButton(
-                                                icon: Icon(Icons.delete),
+                                                icon: Icon(Icons.delete,
+                                                    size: 20),
                                                 color: Colors.red,
                                                 onPressed: () {
                                                   print('hapus data ' +
@@ -321,7 +344,7 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                               ),
                                             ),
                                           ),
-                                            Container(
+                                          Container(
                                             height: 1,
                                             color: Colors.grey,
                                           )

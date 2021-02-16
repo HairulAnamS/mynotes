@@ -214,7 +214,7 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
                       backgroundColor: Colors.white,
                       radius: 70,
                       backgroundImage: (urlImage == "")
-                          ? AssetImage("img/noImage.jpg")
+                          ? AssetImage("img/nouser.png")
                           : NetworkImage(urlImage),
                     ),
                   ),

@@ -89,93 +89,98 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.blue[700],
-            // leading: Icon(Icons.android),
-            title: Text(
-              "My Apps",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
-            ),
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.account_circle, color: Colors.white),
-                  onPressed: () {
-                    _showAlert(context, user.email);
-                  }),
-              IconButton(
-                  icon: Icon(Icons.exit_to_app, color: Colors.white),
-                  onPressed: () {
-                    _showAlertExit(context, "Apakah yakin ingin keluar ?");
-                    // SystemNavigator.pop(); // Exit App
-                    //Navigator.pop(context); // Kembali ke page sebelumnya
-                  })
-            ],
-          ),
-          body: Center(
-              child: ListView(
-            children: <Widget>[
-              SizedBox(height: 10),
-              Container(
-                height: 100,
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.blue[100],
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                        colors: [Colors.blue, Colors.lightGreen[300]])),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage("img/heru_logo.jpg"),
-                      radius: 30,
-                      backgroundColor: Colors.transparent,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Hairul Anam S',
-                      style: GoogleFonts.aBeeZee(
-                          textStyle:
-                              TextStyle(color: Colors.black, fontSize: 18)),
-                    )
-                  ],
-                ),
+      home: Container(
+        decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("img/main_page1.png"), fit: BoxFit.fill)),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.blue[700],
+              // leading: Icon(Icons.android),
+              title: Text(
+                "My Apps",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
               ),
-              SizedBox(height: 10),
-              Container(
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.blue[100],
-                  borderRadius: BorderRadius.circular(8),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.account_circle, color: Colors.white),
+                    onPressed: () {
+                      _showAlert(context, user.email);
+                    }),
+                IconButton(
+                    icon: Icon(Icons.exit_to_app, color: Colors.white),
+                    onPressed: () {
+                      _showAlertExit(context, "Apakah yakin ingin keluar ?");
+                      // SystemNavigator.pop(); // Exit App
+                      //Navigator.pop(context); // Kembali ke page sebelumnya
+                    })
+              ],
+            ),
+            body: Center(
+                child: ListView(
+              children: <Widget>[
+                SizedBox(height: 10),
+                Container(
+                  height: 100,
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.blue[100],
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                          colors: [Colors.blue, Colors.lightGreen[300]])),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage("img/heru_logo.jpg"),
+                        radius: 30,
+                        backgroundColor: Colors.transparent,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Hairul Anam S',
+                        style: GoogleFonts.aBeeZee(
+                            textStyle:
+                                TextStyle(color: Colors.black, fontSize: 18)),
+                      )
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        menu(context, Icons.brightness_4_outlined, 'Dzikir', _menuDzikir),
-                        menu(context, Icons.wifi_tethering, 'IOT', _menuIOT),
-                        menu(context, Icons.note_add, 'Notes', _menuNoted),
-                        menu(context, Icons.camera, 'Camera', _menuCamera),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        menu(context, Icons.cake, 'Birthday', _menuBirthday),
-                        menu(context, Icons.money_off_outlined, 'Finance',
-                            _menuFinance),
-                        menu(context, Icons.accessibility, 'BMI', _menuBMI),
-                        menu(context, Icons.folder, 'Data', _menuData),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ))),
+                SizedBox(height: 10),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[100],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          menu(context, Icons.brightness_4_outlined, 'Dzikir', _menuDzikir),
+                          menu(context, Icons.wifi_tethering, 'IOT', _menuIOT),
+                          menu(context, Icons.note_add, 'Notes', _menuNoted),
+                          menu(context, Icons.camera, 'Camera', _menuCamera),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          menu(context, Icons.cake, 'Birthday', _menuBirthday),
+                          menu(context, Icons.money_off_outlined, 'Finance',
+                              _menuFinance),
+                          menu(context, Icons.accessibility, 'BMI', _menuBMI),
+                          menu(context, Icons.folder, 'Data', _menuData),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ))),
+      ),
     );
   }
 

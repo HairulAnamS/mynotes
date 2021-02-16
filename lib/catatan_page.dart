@@ -66,7 +66,8 @@ class _CatatanPageState extends State<CatatanPage> {
                       final notes = snapshot.data[index];
 
                       return Dismissible(
-                        key: Key(notes.data["catatan"]),
+                        // key: Key(notes.data["catatan"]),
+                        key: UniqueKey(),
                         onDismissed: (direction) {
                           return showDialog(
                             context: context,
@@ -76,12 +77,12 @@ class _CatatanPageState extends State<CatatanPage> {
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               content: Text(
-                                "Apakah yakin ingin menghapus data ini ?",
+                                "Apakah yakin ingin menghapus data tersebut ?",
                                 style: TextStyle(fontSize: 14),
                               ),
                               actions: <Widget>[
                                 FlatButton(
-                                  color: warna,
+                                  color: Colors.blue[700],
                                   onPressed: () {
                                     Navigator.of(ctx).pop();
                                     if (this.mounted) {
@@ -97,9 +98,14 @@ class _CatatanPageState extends State<CatatanPage> {
                                       style: TextStyle(fontSize: 14)),
                                 ),
                                 FlatButton(
-                                  color: warna,
+                                  color: Colors.blue[700],
                                   onPressed: () {
                                     Navigator.of(ctx).pop();
+                                    if (this.mounted) {
+                                      setState(() {
+                                        refreshData();
+                                      });
+                                    }
                                   },
                                   child: Text(
                                     "TIDAK",
