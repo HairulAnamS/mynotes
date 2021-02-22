@@ -89,7 +89,7 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
     finance.kategori = options[fKategori];
     finance.tglTrans = fTglTrans;
     finance.isDebet = fIsDebet;
-    finance.bulanTrans = getBulan(finance.tglTrans);
+    finance.bulanTrans = getBulan(finance.tglTrans, true);
   }
 
   bool checkValidate() {
@@ -337,7 +337,7 @@ class _FinanceInputPageState extends State<FinanceInputPage> {
                         onChanged: (val) {
                           setState(() {
                             fTglTrans = new DateFormat("yyyy-MM-dd").parse(val);
-                            getBulan(fTglTrans);
+                            getBulan(fTglTrans, true);
                             print(val);
                           });
                         },

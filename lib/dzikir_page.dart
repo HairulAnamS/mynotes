@@ -43,26 +43,18 @@ class _DzikirPageState extends State<DzikirPage> {
         debugShowCheckedModeBanner: false,
         home: Container(
           decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("img/white-black.jpg"), fit: BoxFit.cover)),
+              gradient: LinearGradient(
+            colors: [Colors.lightBlue, Colors.white, Colors.lightGreen[300]],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )
+              // image: DecorationImage(
+              //     image: AssetImage("img/white-black.jpg"), fit: BoxFit.cover)
+              ),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            // appBar: AppBar(
-            //   backgroundColor: Colors.lightBlue[100],
-            //   leading: IconButton(
-            //     icon: Icon(Icons.arrow_back_ios),
-            //     onPressed: () {
-            //       Navigator.pop(context);
-            //     },
-            //   ),
-            //   title: Text(
-            //     "Berdzikir",
-            //     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
-            //   ),
-            // ),
             body: Center(
               child: Column(
-                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   SizedBox(height: 120),
                   Text(
@@ -76,7 +68,6 @@ class _DzikirPageState extends State<DzikirPage> {
                   ),
                   SizedBox(height: 150),
                   Ink(
-                    //padding: EdgeInsets.all(20),
                     decoration: const ShapeDecoration(
                       color: Colors.blue,
                       shape: CircleBorder(),
@@ -86,7 +77,6 @@ class _DzikirPageState extends State<DzikirPage> {
                       iconSize: 80,
                       color: Colors.white,
                       onPressed: () {
-                        //Hitung();
                         _incCounter();
                       },
                     ),
@@ -100,7 +90,6 @@ class _DzikirPageState extends State<DzikirPage> {
               },
               backgroundColor: Colors.green,
               mini: false,
-              // tooltip: 'Increment',
               child: Icon(Icons.refresh),
             ),
           ),

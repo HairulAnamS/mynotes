@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:project1/bmiResult_page.dart';
+
+import 'constant.dart';
 // import 'package:flutter_xlider/flutter_xlider.dart';
 // import 'package:weight_slider/weight_slider.dart';
 // import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -40,9 +42,9 @@ class _BMIPageState extends State<BMIPage> {
     }
   }
 
-  void calculate(){
-    double m = _height/100;
-    _hasil = _weight/(m*m);
+  void calculate() {
+    double m = _height / 100;
+    _hasil = _weight / (m * m);
     _hasil = double.parse((_hasil).toStringAsFixed(2));
   }
 
@@ -74,13 +76,13 @@ class _BMIPageState extends State<BMIPage> {
             Container(
               height: MediaQuery.of(context).size.height * 0.25,
               width: MediaQuery.of(context).size.width,
-              color: Colors.deepOrange[400],
+              color: warna,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 35, 15, 15),
                 child: Text(
                   'BMI Calculator',
                   style: GoogleFonts.gorditas(
-                      textStyle: TextStyle(fontSize: 26, color: Colors.white)),
+                      textStyle: TextStyle(fontSize: 36, color: Colors.white)),
                 ),
               ),
             ),
@@ -98,8 +100,8 @@ class _BMIPageState extends State<BMIPage> {
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.grey.withOpacity(0.4),
-                                blurRadius: 5,
+                                color: warna,
+                                blurRadius: 10,
                                 offset: Offset(2, 2))
                           ]),
                       child: Column(
@@ -196,8 +198,8 @@ class _BMIPageState extends State<BMIPage> {
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.grey.withOpacity(0.4),
-                                blurRadius: 5,
+                                color: warna,
+                                blurRadius: 10,
                                 offset: Offset(2, 2))
                           ]),
                       child: Column(
@@ -232,7 +234,7 @@ class _BMIPageState extends State<BMIPage> {
                                 width: 55,
                                 padding: EdgeInsets.fromLTRB(8, 15, 8, 8),
                                 child: RaisedButton(
-                                  color: Colors.deepOrange[400],
+                                  color: warna,
                                   onPressed: () {
                                     changeAge(false);
                                   },
@@ -248,7 +250,8 @@ class _BMIPageState extends State<BMIPage> {
                                 width: 55,
                                 padding: EdgeInsets.fromLTRB(8, 15, 8, 8),
                                 child: RaisedButton(
-                                  color: Colors.deepOrange[400],
+                                  // color: Colors.deepOrange[400],
+                                  color: warna,
                                   onPressed: () {
                                     changeAge(true);
                                   },
@@ -278,9 +281,7 @@ class _BMIPageState extends State<BMIPage> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
-                            blurRadius: 5,
-                            offset: Offset(2, 2))
+                            color: warna, blurRadius: 10, offset: Offset(2, 2))
                       ]),
                   child: Column(
                     children: [
@@ -304,7 +305,7 @@ class _BMIPageState extends State<BMIPage> {
 
                       CircleAvatar(
                         radius: 62,
-                        backgroundColor: Colors.deepOrange,
+                        backgroundColor: warna,
                         child: CircleAvatar(
                           radius: 60,
                           backgroundColor: Colors.white,
@@ -357,7 +358,7 @@ class _BMIPageState extends State<BMIPage> {
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20)),
-                            color: Colors.blue[100],
+                            color: warna,
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.grey.withOpacity(0.4),
@@ -367,10 +368,10 @@ class _BMIPageState extends State<BMIPage> {
 
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
-                            activeTrackColor: Colors.deepOrange,
-                            inactiveTrackColor: Colors.deepOrange[100],
+                            activeTrackColor: Colors.blueAccent[700],
+                            inactiveTrackColor: Colors.blueAccent[100],
                             trackHeight: 3.0,
-                            thumbColor: Colors.deepOrange,
+                            thumbColor: Colors.blueAccent[700],
                             thumbShape:
                                 RoundSliderThumbShape(enabledThumbRadius: 10.0),
                             overlayColor: Colors.purple.withAlpha(32),
@@ -413,9 +414,7 @@ class _BMIPageState extends State<BMIPage> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
-                            blurRadius: 5,
-                            offset: Offset(2, 2))
+                            color: warna, blurRadius: 10, offset: Offset(2, 2))
                       ]),
                   child: Column(
                     children: [
@@ -458,10 +457,10 @@ class _BMIPageState extends State<BMIPage> {
                         padding: const EdgeInsets.only(bottom: 5),
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
-                            activeTrackColor: Colors.blue,
-                            inactiveTrackColor: Colors.blue[100],
+                            activeTrackColor: warna,
+                            inactiveTrackColor: Colors.grey,
                             trackHeight: 3.0,
-                            thumbColor: Colors.blue,
+                            thumbColor: warna,
                             thumbShape:
                                 RoundSliderThumbShape(enabledThumbRadius: 10.0),
                             overlayColor: Colors.purple.withAlpha(32),
@@ -488,14 +487,13 @@ class _BMIPageState extends State<BMIPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: RoundedLoadingButton(
-                    color: Colors.deepOrange,
+                    color: warna,
                     width: 200,
                     height: 50,
                     child: Text(
                       'GO !',
                       style: GoogleFonts.fasterOne(
-                        textStyle:
-                            TextStyle(fontSize: 40, color: Colors.white),
+                        textStyle: TextStyle(fontSize: 40, color: Colors.white),
                       ),
                     ),
                     controller: btnController,

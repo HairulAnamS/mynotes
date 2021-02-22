@@ -91,9 +91,9 @@ class _GrafikPageState extends State<GrafikPage> {
     tglAwal = DateTime(tglSkrg.year, tglSkrg.month - 2, 1);
     tglAkhir = DateTime(tglSkrg.year, tglSkrg.month + 1, 0);
 
-    bln2 = getBulan(tglSkrg);
-    bln1 = getBulan(DateTime(tglSkrg.year, tglSkrg.month - 1, 1));
-    bln0 = getBulan(DateTime(tglSkrg.year, tglSkrg.month - 2, 1));
+    bln2 = getBulan(tglSkrg, true);
+    bln1 = getBulan(DateTime(tglSkrg.year, tglSkrg.month - 1, 1), true);
+    bln0 = getBulan(DateTime(tglSkrg.year, tglSkrg.month - 2, 1), true);
 
     print('start ambil data');
     financeList = await financeDB.getFinanceFilter(tglAwal, tglAkhir);
@@ -139,7 +139,7 @@ class _GrafikPageState extends State<GrafikPage> {
     bulanList.clear();
 
     for (int i = 0; i < 6; i++) {
-      month = getBulan(aDate);
+      month = getBulan(aDate, true);
       bulanList.add(month);
       aDate = DateTime(aDate.year, aDate.month - 1, 1);
     }
@@ -152,7 +152,7 @@ class _GrafikPageState extends State<GrafikPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: warna,
-        title: Text('Data Income dan Outcome',
+        title: Text('Income vs Outcome',
             style: GoogleFonts.play(
                 textStyle: TextStyle(fontSize: 20, color: Colors.white))),
       ),

@@ -128,7 +128,7 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
     people.jenisKelamin = (genderValue == 0) ? "L" : "P";
     people.urlPhoto = urlImage;
     people.tglLahir = fTglLahir;
-    people.bulan = getBulan(people.tglLahir);
+    people.bulan = getBulan(people.tglLahir, false);
   }
 
   Future<void> doSave(BuildContext context) async {
@@ -289,7 +289,7 @@ class _BirthdayInputPageState extends State<BirthdayInputPage> {
                 onChanged: (val) {
                   setState(() {
                     fTglLahir = new DateFormat("yyyy-MM-dd").parse(val);
-                    getBulan(fTglLahir);
+                    getBulan(fTglLahir, false);
                     print(val);
                   });
                 },

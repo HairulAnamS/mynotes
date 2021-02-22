@@ -10,7 +10,7 @@ const Color warna = const Color.fromARGB(255, 0, 0, 80);
 final formatter =
     new NumberFormat.currency(locale: 'id', decimalDigits: 0, symbol: 'Rp.');
 
-String getBulan(DateTime aDate) {
+String getBulan(DateTime aDate, bool isAddYears) {
   List bulanList = [
     "Januari",
     "Februari",
@@ -28,7 +28,11 @@ String getBulan(DateTime aDate) {
   String result;
   int idxBulan = aDate.month;
 
-  result = bulanList[idxBulan - 1] + ' ' + DateFormat('yyyy').format(aDate);
+  if (isAddYears){
+    result = bulanList[idxBulan - 1] + ' ' + DateFormat('yyyy').format(aDate);
+  }else{
+    result = bulanList[idxBulan - 1];
+  }
   //print('bulan lahir : ' + result);
   return result;
 }

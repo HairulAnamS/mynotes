@@ -246,9 +246,13 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                   final peoples = peopleList[index];
 
                                   return Container(
-                                      color: (index % 2) == 0
-                                          ? Colors.blue[50]
-                                          : Colors.white,
+                                      margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: (index % 2) == 0
+                                            ? Colors.blue[100]
+                                            : Colors.grey[300],
+                                      ),
                                       child: Column(
                                         children: [
                                           GestureDetector(
@@ -274,7 +278,9 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                                       context: context,
                                                       builder:
                                                           (ctx) => AlertDialog(
-                                                            contentPadding: EdgeInsets.all(5),
+                                                                contentPadding:
+                                                                    EdgeInsets
+                                                                        .all(5),
                                                                 content:
                                                                     Container(
                                                                   height: 300,
@@ -344,10 +350,11 @@ class _BirthDayPageState extends State<BirthDayPage> {
                                               ),
                                             ),
                                           ),
-                                          Container(
-                                            height: 1,
-                                            color: Colors.grey,
-                                          )
+
+                                          // Container(
+                                          //   height: 1,
+                                          //   color: Colors.grey,
+                                          // )
                                         ],
                                       ));
                                 }),

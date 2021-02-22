@@ -42,7 +42,7 @@ class _HistoryPageState extends State<HistoryPage> {
     if (isUseFilter) {
       financeList = await financeDB.getFinanceFilter(tglAwal, tglAkhir);
     } else {
-      financeList = await financeDB.getFinance(getBulan(DateTime.now()));
+      financeList = await financeDB.getFinance(getBulan(DateTime.now(), true));
     }
     saldo = await financeDB.getSaldo();
     getCome(financeList);

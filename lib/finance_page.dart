@@ -20,7 +20,7 @@ class _FinancePageState extends State<FinancePage> {
     new TabItem(Icons.history, "History", Colors.white,
         labelStyle:
             TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-    new TabItem(Icons.stacked_line_chart, "Graphic", Colors.white,
+    new TabItem(Icons.stacked_line_chart, "Graph", Colors.white,
         labelStyle:
             TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
   ]);
